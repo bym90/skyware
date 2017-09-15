@@ -1,0 +1,159 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.scf.skyware.mobile.domain.Schedule">
+	
+	<sql id="scheduleColumns">
+		schNo,
+		schCate1,
+		schCate2,
+		schTitle,
+		schBody,
+		schMemo,
+		schCompletion,
+		schWriterId,
+		schStartDate,
+		schEndDate,
+		schSaveDate,
+		schAllDay,
+		schIsShow
+	</sql>
+	
+	<sql id="maxNo">
+		SELECT
+			IFNULL(MAX(schNo), 0) + 1 AS schNo
+		FROM
+			schedule
+		ALIAS_FOR_SUBQUERY
+	</sql>
+	
+	<!-- 캘린더 정보 불러오기 -->
+	<select id="getScheduleList" resultType="schedule" parameterType="HashMap">
+		SELECT 
+		<include refid="scheduleColumns" />,
+		UserNm
+		FROM schedule s INNER JOIN user_info u
+		ON s.schWriterId = u.userId
+		WHERE 	
+			(schStartDate &gt;= #{beforeMonth} AND schStartDate &lt;= #{afterMonth}) 
+		AND 
+			(schEndDate &gt;= #{beforeMonth} AND schEndDate &lt;= #{afterMonth})
+		AND
+			schIsShow = 'Y'
+		
+		<!-- WHERE 	
+			(schStartDate <![CDATA[>=]]> #{beforeMonth} AND schStartDate <![CDATA[<=]]> #{afterMonth}) 
+		AND 
+			(schEndDate <![CDATA[>=]]> #{beforeMonth} AND schEndDate <![CDATA[<=]]> #{afterMonth})
+		AND
+			schIsShow = 'Y' -->
+	</select>
+	
+	<!-- 캘린더 일정 등록 -->
+	<insert id="scheduleWrite" parameterType="HashMap">
+		<selectKey resultType="integer" keyProperty="schNo" order="AFTER">
+			SELECT Max(schNo) FROM schedule 
+		</selectKey>
+		INSERT
+		INTO 
+			schedule	
+		VALUES
+		(
+			(<include refid="maxNo"/>), #{schCate1}, #{schCate2}, #{schTitle}, #{schBody}, #{schMemo}, #{schCompletion}, #{schWriterId},
+			#{schStartDate}, #{schEndDate}, NOW(), #{schAllDay}, 'Y'
+		)
+	</insert>
+	
+	<!-- 캘린더 일정 수정 -->
+	<update id="scheduleModify" parameterType="HashMap">
+		UPDATE
+			schedule
+		SET
+			schCate1 = #{schCate1}, 
+			schCate2 = #{schCate2}, 
+			schTitle = #{schTitle}, 
+			schBody = #{schBody}, 
+			schMemo = #{schMemo}, 
+			schCompletion = #{schCompletion}, 
+			schStartDate = #{schStartDate}, 
+			schEndDate = #{schEndDate}, 
+			schSaveDate = NOW(), 
+			schAllDay = #{schAllDay}
+		WHERE 
+			schNo = #{schNo}
+	</update>
+	
+	<!-- 캘린더 일정 삭제 -->
+	<update id="scheduleDelete" parameterType="schedule">
+		UPDATE
+			schedule
+		SET
+			schIsShow = 'N'
+		WHERE 
+			schNo = #{schNo}
+	</update>
+	
+	<!-- 캘린더 카테고리 가져오기 -->
+	<select id="scheduleGetCate" parameterType="schedule" resultType="code">
+		SELECT
+			codeId,
+			codeDiv,
+			codeNm,
+			codeSort
+		FROM
+			code_info
+		WHERE
+			useYn = 'Y'
+		AND
+		    codeDiv LIKE CONCAT(#{schCateDiv}, '%')
+	</select>
+	
+	<!-- 캘린더 생일자 가져오기 -->
+	<select id="getBirthList" resultType="user">
+		SELECT
+			*
+		FROM 
+			user_info  
+		WHERE 
+			SUBSTRING(userBirth, 6,2) = DATE_FORMAT(now(), '%m')
+	</select>
+	
+	<!-- 캘린더 내가 작성한 일정 가져오기-->
+	<select id="getWriteMySch" parameterType="HashMap" resultType="schedule">
+		SELECT 
+			<include refid="scheduleColumns" />,
+			userNm
+		FROM
+			schedule s INNER JOIN user_info u
+		ON
+			s.schWriterId = u.userId
+		WHERE
+			s.schWriterId = #{schWriterId}
+		AND
+			s.schIsShow = 'Y'
+		ORDER BY
+			s.schSaveDate DESC
+	</select>
+
+	<!-- 캘린더 이번주 일정 가져오기-->
+	<select id="getWeekList" parameterType="HashMap" resultType="schedule">
+		SELECT 
+			<include refid="scheduleColumns" />,
+			userNm
+		FROM
+			schedule s INNER JOIN user_info u
+		ON
+			s.schWriterId = u.userId
+		WHERE 
+			(schStartDate &gt;= #{nowSunday} AND schStartDate &lt;= #{nowSaturday}) 
+		AND 
+			(schEndDate &gt;= #{nowSunday} AND schEndDate &lt;= #{nowSaturday})
+		AND
+			s.schIsShow = 'Y'
+		ORDER BY
+			s.schStartDate DESC
+	</select>
+	
+</mapper>

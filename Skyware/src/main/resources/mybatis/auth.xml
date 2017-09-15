@@ -1,0 +1,118 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.scf.skyware.manage.domain.AdminAuth">
+	
+	<sql id="authColumns">
+		userId,
+		userNm,
+		permissionType,
+		userMntYn,
+		codeMntYn,
+		boardMntYn,
+		calenderMntYn,
+		authRegDate,
+		authUptDate
+	</sql>
+	
+	<!-- 권한 리스트 -->
+	<select id="Auth_getAdminList" parameterType="auth" resultType="auth">
+		SELECT 
+		<include refid="authColumns" />
+		FROM admin_auth
+		WHERE 1=1
+		<if test="userId != '' and userId != null">
+			AND userId = #{userId}
+		</if>
+		ORDER BY authRegDate desc LIMIT #{pageSize} OFFSET #{curPage}
+	</select>
+	
+	<!-- 권한 리스트 카운트 -->
+	<select id="Auth_getAdminListCount" parameterType="auth" resultType="Integer">
+		SELECT 
+			COUNT(userId) AS totalPage
+		FROM admin_auth
+		WHERE 1=1
+		<if test="userId != '' and userId != null">
+			AND userId = #{userId}
+		</if>
+	</select>
+	
+	<!-- 권한 체크 -->
+	<select id="Auth_getAdminChk" parameterType="auth" resultType="auth">
+		SELECT 
+			<include refid="authColumns" />
+		FROM admin_auth
+		WHERE 1=1
+			AND userId = #{userId}
+	</select>
+	
+	<!-- 권한 등록 찾기 -->
+	<select id="Auth_getAdminAddSch" parameterType="auth" resultType="auth">
+		SELECT 
+			a.userId,
+			a.userNm
+		FROM user_info a LEFT JOIN admin_auth b ON a.userId = b.userId
+		WHERE b.userId is null
+		AND (a.userNm LIKE CONCAT('%', #{userId}, '%') OR a.userId LIKE CONCAT('%', #{userId}, '%'))
+		ORDER BY a.userId
+	</select>
+	
+	<!-- 권한 등록 -->
+	<insert id="Auth_regAdmin" parameterType="auth">
+		INSERT INTO admin_auth
+		(
+			userId,
+			userNm,
+			permissionType,
+			userMntYn,
+			codeMntYn,
+			boardMntYn,
+			calenderMntYn,
+			authRegDate
+		)
+		VALUES
+		(
+			#{userId},
+			#{userNm},
+			'A',
+			'N',
+			'N',
+			'N',
+			'N',
+			NOW()
+		)
+	</insert>
+	
+	<!-- 권한 수정 -->
+	<update id="Auth_uptAdmin" parameterType="auth">
+		UPDATE admin_auth
+		SET
+		<if test="permissionType != '' and permissionType != null">
+			permissionType = #{permissionType},
+		</if>
+		<if test="userMntYn != '' and userMntYn != null">
+			userMntYn = #{userMntYn},
+		</if>
+		<if test="codeMntYn != '' and codeMntYn != null">
+			codeMntYn = #{codeMntYn},
+		</if>
+		<if test="boardMntYn != '' and boardMntYn != null">
+			boardMntYn = #{boardMntYn},
+		</if>
+		<if test="calenderMntYn != '' and calenderMntYn != null">
+			calenderMntYn = #{calenderMntYn},
+		</if>
+		authUptDate = NOW()
+		WHERE userId = #{userId}
+	</update>
+	
+	<!-- 권한 삭제 -->
+	<delete id="Auth_delAdmin" parameterType="auth">
+		DELETE FROM admin_auth
+		WHERE userId = #{userId}
+	</delete>
+	
+</mapper>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.skyware.calendar.domain.Calendar">
+	<sql id="canlendarColumns">
+		schNo,
+		schCate,
+		schCate2,
+		schTitle,
+		schBody,
+		schMemo,
+		schCompletion,
+		schWriter,
+		schStartDate,
+		schEndDate,
+		schSaveDate,
+		schSign,
+		schIsShow
+	</sql>
+	
+	<select id="getCalendarList" resultType="calendar">
+		SELECT
+			<include refid="canlendarColumns" />
+		FROM
+			schedule
+	</select>
+</mapper>

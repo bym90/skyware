@@ -1,0 +1,128 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.scf.skyware.manage.domain.Code">
+	
+	<sql id="codeColumns">
+		codeId,
+		codeNm,
+		codeDiv,
+		codeDivNm,
+		codeSort,
+		codeDescription,
+		codeUrl,
+		codeRegDate,
+		useYn
+	</sql>
+	<!-- 코드 리스트 -->
+	<select id="Code_getCodeList" parameterType="code" resultType="code">
+		SELECT 
+		<include refid="codeColumns" />
+		FROM code_info
+		WHERE 1=1
+		<if test="codeId !='' and codeId != null">
+			and codeId = #{codeId}
+		</if>
+		<if test="codeNm !='' and codeNm != null">
+			and codeNm = #{codeNm}
+		</if>
+		<if test="codeDiv !='' and codeDiv != null">
+			and codeDiv = #{codeDiv}
+		</if>
+		<if test="codeDivNm !='' and codeDivNm != null">
+			and codeDivNm = #{codeDivNm}
+		</if>
+		<if test="useYn !='' and useYn != null">
+			and useYn = #{useYn}
+		</if>
+	</select>
+	
+	<!-- 네이밍 코드 최대값 -->
+	<select id="Code_getMaxNamingCodeSeq" parameterType="code" resultType="Integer">	
+		SELECT IFNULL(SUBSTRING(MAX(codeId), LENGTH(codeDiv) + 1), 0) + 1 AS MaxSeq 
+		FROM code_info
+		WHERE codeDiv= #{codeDiv}
+	</select>	
+	
+	<!--  네이밍 코드 최대 정렬값 -->
+	<select id="Code_getMaxNamingCodeSort" parameterType="code" resultType="Integer">
+		SELECT IFNULL(MAX(codeSort), 0) + 1 AS MaxSort
+		FROM code_info 
+		WHERE codeDiv = #{codeDiv}
+	</select>
+	
+	<!-- 베이스코드 중복체크 -->
+	<select id="Code_codeDuplCheck" parameterType="code" resultType="Integer">
+		SELECT COUNT(codeId) AS cnt
+		FROM code_info
+		WHERE codeId = #{codeId}
+	</select>
+	
+	<!-- 베이스코드 등록 -->
+	<insert id="Code_regBaseCode" parameterType="code">
+		INSERT INTO code_info
+		(
+			codeId,
+			codeNm,
+			codeDiv,
+			codeDivNm,
+			codeSort,
+			codeDescription,
+			codeRegDate,
+			useYn
+		) 
+		VALUES
+		(
+			#{codeId},
+			#{codeNm},
+			#{codeDiv},
+			#{codeDivNm},
+			#{codeSort},
+			#{codeDescription},
+			now(),
+			#{useYn}
+		)
+	</insert>	
+	
+	<!-- 네이밍코드 등록 -->
+	<insert id="Code_regNamingCode" parameterType="code">
+		INSERT INTO code_info
+		(
+			codeId,
+			codeNm,
+			codeDiv,
+			codeDivNm,
+			codeSort,
+			codeDescription,
+			codeRegDate,
+			useYn
+		) 
+		VALUES
+		(
+			#{codeId},
+			#{codeNm},
+			#{codeDiv},
+			#{codeDivNm},
+			#{codeSort},
+			#{codeDescription},
+			now(),
+			#{useYn}
+		)
+	</insert>
+	
+	<!-- 네이밍코드 수정 -->
+	<!-- <update id="Code_uptNamingCode" parameterType="code">
+		UPDATE code_info
+		SET
+		WHERE codeId = #{codeId}
+	</update> -->
+	
+	<!-- 네이밍코드 삭제 -->
+	<delete id="Code_delNamingCode" parameterType="code">
+		DELETE FROM code_info
+		WHERE codeId = #{codeId}
+	</delete>
+	
+</mapper>

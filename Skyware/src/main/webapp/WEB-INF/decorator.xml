@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    템플릿을 정의한다.
+    Sitemesh에서는 템플릿을 decorator 라고 부른다.
+    
+    decorators 에 필요한 속성으로
+    defaultdir 이라는 속성이 있는데,
+    이 속성은 decorator의 page가 존재하는 경로를 적는다.
+-->
+<decorators defaultdir="/WEB-INF/views">
+ 
+    <!-- 
+        이것은 sitemesh를 사용하지 않을 패턴을 지정한다
+        sitemesh는 모든 URL을 대상으로 decorator를 조사하는데,
+        해당하는 url pattern이 나올때까지 전수 조사하게 된다.
+        많은 URL을 포함하고 있는 프로젝트라면
+        decorator를 검색하는 시간도 오래 걸리므로
+        decorator를 사용하지 않는 페이지도 반드시 등록을 해주어야 한다. 
+    -->
+     
+    <excludes>
+<!--         <pattern>/</pattern> -->
+        <pattern>/index*</pattern>
+        <pattern>/home*</pattern>
+        <pattern>/popup/*</pattern>
+        <pattern>/ajax/*</pattern>
+        <pattern>/manage/code/codeList</pattern>
+        <pattern>/manage/code/codeRegAction</pattern>
+        <pattern>/manage/code/basecodeRegAction</pattern>
+        <pattern>/manage/code/codeDuplCheck</pattern>
+        <pattern>/manage/code/codeUptAction</pattern>
+        <pattern>/manage/code/codeDelAction</pattern>
+        <pattern>/manage/auth/regAuthSchAction</pattern>
+        <pattern>/manage/auth/authRegAction</pattern>
+        <pattern>/manage/auth/authUptAction</pattern>
+        <pattern>/manage/auth/authDelAction</pattern>
+        <pattern>/manage/user/userManageList</pattern>
+        <pattern>/LoginAction</pattern>
+    </excludes>
+    
+        
+    <!-- 
+        UI Template(Decorator)를 정의한다.
+        페이지의 타이틀과 Template page를 정의한다.
+        pattern에 정의된 URL로 접근할 때
+        해당하는 Decorator를 보여준다.
+        
+        여러개의 URL에 하나의 Template을 정의하고 싶다면
+        <pattern>/test/*</pattern> 엘리먼트를
+        아래와 같이 복수개로 정의한다.
+        <pattern>/board/*</pattern>
+        <pattern>/member/*</pattern>
+        <pattern>/photo/*</pattern>
+    -->
+    <!-- 
+        사이트의 메인 페이지 템플릿
+    -->
+    <decorator name="mainTemplate" title="FinalSpring - Index" page="main/main.jsp">
+<!--         <pattern>/</pattern> -->
+		<pattern>/manage/*</pattern>
+<!-- 		<pattern>/manage/code/codeRegView</pattern> -->
+		<pattern>/manage/code/*</pattern>
+		<pattern>/manage/auth/*</pattern>
+		<pattern>/manage/user/*</pattern>
+		<pattern>/board/*</pattern>
+		<pattern>/approval/*</pattern>
+		<pattern>/calendar/*</pattern>
+        <pattern>/test/*</pattern>
+        <pattern>/main/*</pattern>
+    </decorator>
+    
+    <decorator name="mypage" title="FinalSpring" page="test/mypage.jsp">
+        <pattern>/member/mypage</pattern>
+    </decorator>
+ 
+</decorators>

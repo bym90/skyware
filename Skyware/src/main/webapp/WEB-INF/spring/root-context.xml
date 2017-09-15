@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:c="http://www.springframework.org/schema/c"
+	xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xmlns:beans="http://www.springframework.org/schema/beans"
+	xmlns:aop="http://www.springframework.org/schema/aop"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd
+									http://www.springframework.org/schema/jdbc  http://www.springframework.org/schema/jdbc/spring-jdbc-3.0.xsd
+									http://www.springframework.org/schema/aop http://www.springframework.org/schema/aop/spring-aop.xsd
+									http://www.springframework.org/schema/mvc http://www.springframework.org/schema/mvc/spring-mvc.xsd
+									http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans.xsd">
+	
+	<import resource="classpath:datasource/mybatisDatasource.xml" />
+	
+	<!-- Root Context: defines shared resources visible to all other web components -->
+	<!-- 메시지정보 -->
+	<bean id="messageSource" class="org.springframework.context.support.ResourceBundleMessageSource">
+		<property name="basenames">
+			<list>
+				<value>messages/skyware</value>
+			</list>
+		</property>
+	</bean>
+	
+	<bean id="SQLlog" class="net.sf.log4jdbc.Log4jdbcProxyDataSource">
+		<constructor-arg ref="dataSource" />
+		<property name="logFormatter">
+			<bean class="net.sf.log4jdbc.tools.Log4JdbcCustomFormatter">
+				<property name="loggingType" value="MULTI_LINE" />
+				<property name="sqlPrefix" value="SQL		:		" />
+			</bean>
+		</property>
+	</bean>
+	
+	<!-- db정보 -->
+	<bean id="dataSource" class="org.apache.commons.dbcp2.BasicDataSource" destroy-method="close" 
+		p:driverClassName="${db.Driver}"
+		p:url="${db.Url}"
+		p:username="${db.Username}"
+		p:password="${db.Password}" />
+	
+	<!-- <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean"
+		p:dataSource-ref="dataSource"
+		p:configLocation-ref="classpath:conf/sqlmapconfig.xml" /> -->
+	<bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+        <property name="dataSource" ref="dataSource" />
+        <property name="configLocation" value="classpath:conf/sqlmapconfig.xml" />
+    </bean>
+
+    <bean id="sqlSession" class="org.mybatis.spring.SqlSessionTemplate"
+    	c:sqlSessionFactory-ref="sqlSessionFactory" />
+	
+	<!-- 파일업로드 -->
+	<bean id="multipartResolver" class="org.springframework.web.multipart.commons.CommonsMultipartResolver" />
+	
+	<!-- 에러페이지 -->
+	<bean id="exeptionMapping" class="org.springframework.web.servlet.handler.SimpleMappingExceptionResolver">
+		<property name="exceptionMappings">
+			<props>
+				<prop key="SQLException">common/error/error</prop>
+				<prop key="IOException">common/error/error</prop>
+			</props>
+		</property>
+		<property name="defaultErrorView" value="common/error/error" />
+	</bean>
+	
+	<mvc:interceptors>
+		<mvc:interceptor>
+			<mvc:mapping path="/ajax/*"/>
+				<beans:bean class="com.scf.skyware.common.interceptor.UserInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/approval/*"/>
+				<beans:bean class="com.scf.skyware.common.interceptor.UserInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/board/*"/>
+				<beans:bean class="com.scf.skyware.common.interceptor.UserInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/calendar/*"/>
+				<beans:bean class="com.scf.skyware.common.interceptor.UserInterceptor"/>
+		</mvc:interceptor>
+<!-- 		<mvc:interceptor> -->
+<!-- 			<mvc:mapping path="/home/*"/> -->
+<!-- 				<beans:bean class="com.scf.skyware.common.interceptor.UserInterceptor"/> -->
+<!-- 		</mvc:interceptor> -->
+		<mvc:interceptor>
+			<mvc:mapping path="/manage/*"/>
+				<beans:bean class="com.scf.skyware.common.interceptor.UserInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/manage/code/*"/>
+				<beans:bean class="com.scf.skyware.common.interceptor.UserInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/manage/user/*"/>
+				<beans:bean class="com.scf.skyware.common.interceptor.UserInterceptor"/>
+		</mvc:interceptor>
+		<mvc:interceptor>
+			<mvc:mapping path="/manage/auth/*"/>
+				<beans:bean class="com.scf.skyware.common.interceptor.UserInterceptor"/>
+		</mvc:interceptor>
+<!-- 		<mvc:interceptor> -->
+<!-- 			<mvc:mapping path="/manage/auth/*"/> -->
+<!-- 				<beans:bean class="com.scf.skyware.common.interceptor.AuthInterceptor"/> -->
+<!-- 		</mvc:interceptor> -->
+	</mvc:interceptors>
+	<aop:aspectj-autoproxy />
+		
+</beans>

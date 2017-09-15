@@ -1,0 +1,21 @@
+
+#home
+{
+	width: 420px;
+	margin: 0 auto;
+	margin-top: 250px;
+	margin-bottom: 250px;
+	padding: 0 30px;
+    border: 1px solid #d0d0d0;
+}
+
+#home > #login
+{
+	margin: 50px auto 50px auto;
+}
+
+#home > div > ul > li 
+{
+	list-style-type: none;
+	text-align: right;
+}

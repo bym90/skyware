@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.scf.skyware.main.domain.User">
+	
+	<sql id="userColumnsAll">
+		userId,
+		userPw,
+		userNm,
+		userEmail,
+		userPhone,
+		userGender,
+		userAddrFull,
+		userAddrFullRoad,
+		userAddrSido,
+		userAddrSigungu,
+		userAddrEMD,
+		userAddrJibun,
+		userAddrRoad,
+		userAddrBuldNo,
+		userAddrDetail,
+		userZipcode,
+		userBirth,
+		userSL,
+		userRegDate,
+		userModDate,
+		userJoinDate,
+		useYn
+	</sql>
+	
+	<sql id="userColumnsReg">
+		userId,
+		userPw,
+		userNm,
+		userEmail,
+		userPhone,
+		userGender,
+		userAddrFull,
+		userAddrFullRoad,
+		userAddrSido,
+		userAddrSigungu,
+		userAddrEMD,
+		userAddrJibun,
+		userAddrRoad,
+		userAddrBuldNo,
+		userAddrDetail,
+		userZipcode,
+		userBirth,
+		userSL,
+		userRegDate,
+		useYn,
+		delYn
+	</sql>
+	
+	<select id="Main_getUser" parameterType="user" resultType="user">
+		SELECT 
+			<include refid="userColumnsAll" />
+		FROM user_info
+		WHERE 1=1
+			AND userId = #{userId}
+	</select>
+	
+	<insert id="Main_regUser" parameterType="user">
+		INSERT INTO user_info
+		(
+			<include refid="userColumnsReg" />
+		)
+		VALUES
+		(
+			#{userId},
+			#{userPw},
+			#{userNm},
+			#{userEmail},
+			#{userPhone},
+			#{userGender},
+			#{userAddrFull},
+			#{userAddrFullRoad},
+			#{userAddrSido},
+			#{userAddrSigungu},
+			#{userAddrEMD},
+			#{userAddrJibun},
+			#{userAddrRoad},
+			#{userAddrBuldNo},
+			#{userAddrDetail},
+			#{userZipcode},
+			#{userBirth},
+			#{userSL},
+			NOW(),
+			<if test="useYn != '' and useYn != null">
+				#{useYn},
+			</if>
+			<if test="useYn == '' or useYn == null">
+				'N',
+			</if>
+			'N'
+		)
+	</insert>
+	
+	<select id="Main_overlapIdCheck" parameterType="user" resultType="user">
+		SELECT userId
+		FROM user_info
+		WHERE 1=1
+			AND userId = #{userId}
+	</select>
+	
+	<select id="Main_getUserEmail" parameterType="user" resultType="user">
+		SELECT userEmail
+		FROM user_info
+		WHERE 1=1
+			AND userId = #{userId}
+	</select>
+	
+	<select id="Main_getUserList" parameterType="user" resultType="user">
+<!-- 		SELECT <include refid="userColumnsAll" /> -->
+<!-- 		FROM user_info -->
+<!-- 		ORDER BY userRegDate DESC LIMIT #{pageSize} OFFSET #{curPage} -->
+		SELECT a.*
+		FROM (
+			SELECT @rownum:=@rownum+1 AS userNo, u.*
+			FROM (SELECT * 
+						FROM user_info
+						WHERE 1=1
+							<choose>
+								<when test="schState == 'SCH0101'">
+									AND useYn = 'Y'
+								</when>
+								<when test="schState == 'SCH0102'">
+									AND useYn = 'N'
+								</when>
+							</choose>
+							<choose>
+								<when test="schType == 'SCH0201'">
+									AND userId LIKE CONCAT('%', #{schText}, '%')
+								</when>
+								<when test="schType == 'SCH0202'">
+									AND userNm LIKE CONCAT('%', #{schText}, '%')
+								</when>
+								<when test="schType == 'SCH0203'">
+									AND userPhone LIKE CONCAT('%', #{schText}, '%')
+								</when>
+<!-- 								<when test="schType != '' and schType != null"> -->
+								<otherwise>
+									AND (userId LIKE CONCAT('%', #{schText}, '%') OR userNm LIKE CONCAT('%', #{schText}, '%') OR userPhone LIKE CONCAT('%', #{schText}, '%'))
+								</otherwise>
+<!-- 								</when> -->
+							</choose>
+							AND delYn = 'N'
+						ORDER BY userRegDate ASC) u,
+					(SELECT @rownum:=0) n
+			ORDER BY userNo DESC) a
+		ORDER BY userRegDate DESC LIMIT #{pageSize} OFFSET #{curPage}
+	</select>
+	
+	<select id="Main_getUserListCount"  parameterType="user" resultType="Integer" >
+		SELECT COUNT(userId) AS totalPage
+		FROM user_info
+		WHERE 1=1
+			<choose>
+				<when test="schState == 'SCH0101'">
+					AND useYn = 'Y'
+				</when>
+				<when test="schState == 'SCH0102'">
+					AND useYn = 'N'
+				</when>
+			</choose>
+			<choose>
+				<when test="schType == 'SCH0201'">
+					AND userId LIKE CONCAT('%', #{schText}, '%')
+				</when>
+				<when test="schType == 'SCH0202'">
+					AND userNm LIKE CONCAT('%', #{schText}, '%')
+				</when>
+				<when test="schType == 'SCH0203'">
+					AND userPhone LIKE CONCAT('%', #{schText}, '%')
+				</when>
+				<otherwise>
+					AND (userId LIKE CONCAT('%', #{schText}, '%') OR userNm LIKE CONCAT('%', #{schText}, '%') OR userPhone LIKE CONCAT('%', #{schText}, '%'))
+				</otherwise>
+			</choose>
+			AND delYn = 'N'
+	</select>
+	
+	<update id="Main_uptUser" parameterType="user">
+		UPDATE user_info
+		SET
+		<if test="useYn != '' and useYn != null">
+			useYn = #{useYn},
+		</if>
+		<if test="userPw != '' and userPw != null">
+			userPw = #{userPw},
+		</if>
+		<if test="userNm != '' and userNm != null">
+			userNm = #{userNm},
+		</if>
+		<if test="userEmail != '' and userEmail != null">
+			userEmail = #{userEmail},
+		</if>
+		<if test="userPhone != '' and userPhone != null">
+			userPhone = #{userPhone},
+		</if>
+		<if test="userGender != '' and userGender != null">
+			userGender = #{userGender},
+		</if>
+		<if test="userSL != '' and userSL != null">
+			userSL = #{userSL},
+		</if>
+		<if test="userBirth != '' and userBirth != null">
+			userBirth = #{userBirth},
+		</if>
+		<if test="userAddrFull != '' and userAddrFull != null">
+			userAddrFull = #{userAddrFull},
+		</if>
+		<if test="userAddrDetail != '' and userAddrDetail != null">
+			userAddrDetail = #{userAddrDetail},
+		</if>
+		<if test="userAddrFullRoad != '' and userAddrFullRoad != null">
+			userAddrFullRoad = #{userAddrFullRoad},
+		</if>
+		<if test="userAddrSido != '' and userAddrSido != null">
+			userAddrSido = #{userAddrSido},
+		</if>
+		<if test="userAddrSigungu != '' and userAddrSigungu != null">
+			userAddrSigungu = #{userAddrSigungu},
+		</if>
+		<if test="userAddrEMD != '' and userAddrEMD != null">
+			userAddrEMD = #{userAddrEMD},
+		</if>
+		<if test="userAddrJibun != '' and userAddrJibun != null">
+			userAddrJibun = #{userAddrJibun},
+		</if>
+		<if test="userAddrRoad != '' and userAddrRoad != null">
+			userAddrRoad = #{userAddrRoad},
+		</if>
+		<if test="userAddrBuldNo != '' and userAddrBuldNo != null">
+			userAddrBuldNo = #{userAddrBuldNo},
+		</if>
+		<if test="userZipcode != '' and userZipcode != null">
+			userZipcode = #{userZipcode}
+		</if>
+		WHERE userId = #{userId}
+	</update>
+	
+	<update id="Main_delUser" parameterType="user">
+		UPDATE user_info
+		SET delYn = 'Y'
+		WHERE userId = #{userId}
+	</update>
+	
+<!-- 	<select id="Main_getUserPageInfo" resultType="int"> -->
+<!-- 		SELECT COUNT(*) -->
+<!-- 		FROM user_info -->
+<!-- 		WHERE 1=1 -->
+<!-- 		ORDER BY userRegDate DESC -->
+<!-- 	</select> -->
+</mapper>

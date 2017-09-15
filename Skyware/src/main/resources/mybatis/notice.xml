@@ -1,0 +1,208 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.skyware.notice.domain.Notice">
+
+	<sql id="noticeColums">
+		noticeNo,
+		noticeTitle,
+		noticeBody,
+		noticeWriterId,
+		noticeDate,
+		noticeIsShow
+	</sql>
+
+	<sql id="maxNo">
+		SELECT
+			IFNULL(MAX(noticeNo), 0) + 1 AS noticeNo
+		FROM
+			notice_board
+		ALIAS_FOR_SUBQUERY
+	</sql>
+	
+	<sql id="noticeColums_m">
+		noticeNo,
+		noticeTitle,
+		noticeBody,
+		noticeWriterId,
+		noticeDate,
+		noticeModDate,
+		noticeIsShow
+	</sql>
+
+	<sql id="Notice_maxNo">
+		SELECT
+			IFNULL(MAX(noticeNo), 0) + 1 AS noticeNo
+		FROM
+			notice_board
+		ALIAS_FOR_SUBQUERY
+	</sql>
+
+	<!-- 공지사항 리스트 -->
+	<select id="getNoticeList" resultType="notice">
+		SELECT 
+			@rnum:=@rnum+1 rownum, t.*, (SELECT userNm FROM user_info WHERE userId = t.noticeWriterId) AS noticeWriter
+		FROM
+			(select @rnum:=0) n, 
+		(SELECT
+			<include refid="noticeColums" />
+		FROM
+			notice_board
+		WHERE
+			noticeIsShow = 'Y') t
+		ORDER BY rownum desc;
+	</select>
+
+	<!-- 공지사항 리스트 총 개수 -->
+	<select id="getPageInfo" resultType="int">
+		SELECT
+			COUNT(*)
+		FROM
+			notice_board
+		WHERE 
+			noticeIsShow='Y'
+		ORDER BY 
+			noticeNo DESC
+	</select>
+
+	<!-- 공지사항 내용 -->
+	<select id="getNoticeView" parameterType="int" resultType="notice">
+		SELECT
+			<include refid="noticeColums" />
+			, (SELECT userNm FROM user_info WHERE userId = n.noticeWriterId) AS noticeWriter
+		FROM 
+			notice_board n
+		WHERE 
+			noticeIsShow='Y'
+		AND 
+			noticeNo = #{noticeNo}
+	</select>
+
+	<!-- 공지사항 글쓰기 -->
+	<insert id="noticeWriteProc" parameterType="notice">
+		INSERT INTO notice_board
+		(
+			noticeNo,
+			noticeTitle,
+			noticeBody,
+			noticeWriterId,
+			noticeDate,
+			noticeIsShow
+		)
+		VALUES
+		(
+			(<include refid="maxNo" />),
+			#{noticeTitle},
+			#{noticeBody},
+			#{noticeWriterId},
+			CURDATE(),
+			'Y'
+		)
+	</insert>
+
+	<!-- 공지사항 수정하기 -->
+	<update id="noticeUpdate" parameterType="notice">
+		UPDATE
+			notice_board
+		SET
+			noticeTitle = #{noticeTitle},
+			noticeBody = #{noticeBody}
+		WHERE
+			noticeNo = #{noticeNo}
+	</update>
+
+	<!-- 공지사항 삭제하기 -->
+	<update id="noticeDel" parameterType="int">
+		UPDATE
+			notice_board
+		SET
+			noticeIsShow = 'N'
+		WHERE
+			noticeNo = #{noticeNo}
+	</update>
+	
+
+	<select id="Notice_getNoticeList_M" parameterType="notice_m" resultType="notice_m">
+		SELECT a.*, (SELECT userNm FROM user_info WHERE userId = a.noticeWriterId) AS noticeWriter
+		FROM (
+			SELECT @rownum:=@rownum+1 AS rownum, n.*
+			FROM (SELECT *
+						FROM notice_board
+						WHERE 1=1 
+						AND noticeIsShow = 'Y' ORDER BY noticeNo ASC) n,
+				(SELECT @rownum:=0) rn
+			ORDER BY rownum DESC
+		) a
+		ORDER BY noticeNo DESC <!-- LIMIT #{pageSize} OFFSET #{curPage} -->
+	</select>
+
+	<select id="Notice_getNoticeCount_M" resultType="Integer">
+		SELECT
+			COUNT(*)
+		FROM
+			notice_board
+		WHERE 
+			noticeIsShow='Y'
+		ORDER BY 
+			noticeNo DESC
+	</select>
+
+	<select id="Notice_getNoticeView_M" parameterType="notice_m" resultType="notice_m">
+		SELECT
+			<include refid="noticeColums_m" />
+			, (SELECT userNm FROM user_info WHERE userId = n.noticeWriterId) AS noticeWriter
+		FROM 
+			notice_board n
+		WHERE 
+			noticeIsShow='Y'
+		AND 
+			noticeNo = #{noticeNo}
+	</select>
+
+	<insert id="Notice_noticeWriteProc_M" parameterType="notice_m">
+		INSERT INTO notice_board
+		(
+			noticeNo,
+			noticeTitle,
+			noticeBody,
+			noticeWriterId,
+			noticeDate,
+			noticeIsShow
+		)
+		VALUES
+		(
+			(<include refid="Notice_maxNo" />),
+			#{noticeTitle},
+			#{noticeBody},
+			#{noticeWriterId},
+			NOW(),
+			'Y'
+		)
+	</insert>
+
+	<update id="Notice_noticeUpdate_M" parameterType="notice_m">
+		UPDATE
+			notice_board
+		SET
+			<if test="noticeTitle != '' and noticeTitle !=null">
+				noticeTitle = #{noticeTitle},
+			</if>
+			<if test="noticeBody != '' and noticeBody != null">
+				noticeBody = #{noticeBody},
+			</if>
+			noticeModDate = NOW()
+		WHERE
+			noticeNo = #{noticeNo}
+	</update>
+
+	<update id="Notice_noticeDel_M" parameterType="Integer">
+		UPDATE
+			notice_board
+		SET
+			noticeIsShow = 'N'
+		WHERE
+			noticeNo = #{noticeNo}
+	</update>
+</mapper>

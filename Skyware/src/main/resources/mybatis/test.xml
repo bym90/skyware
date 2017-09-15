@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+	PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+	"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+	
+<mapper namespace="com.skyware.test.domain.Test">
+	
+	<sql id="testColumns">
+		id,
+		pass,
+		name,
+		phone
+	</sql>
+	
+	<select id="getTestList" parameterType="test" resultType="test">
+		SELECT 
+		<include refid="testColumns" />
+		FROM test
+		WHERE 1=1
+		<if test="id !='' and id != null">
+			and id = #{id}
+		</if>
+		<if test="name !='' and name != null">
+			and id = #{id}
+		</if>
+		<if test="phone !='' and phone != null">
+			and id = #{id}
+		</if>
+	</select>
+</mapper>

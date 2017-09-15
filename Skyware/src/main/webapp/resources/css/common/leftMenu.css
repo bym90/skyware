@@ -1,0 +1,10 @@
+#leftMenu > ul > li
+{
+	list-style-type: none;
+}
+
+#leftMenu
+{
+	float: left;
+	margin: 0 50px auto 50px;
+}
