@@ -1,0 +1,95 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "@ionic-native/db-meter",
+        "scope": "@ionic-native",
+        "escapedName": "@ionic-native%2fdb-meter",
+        "name": "@ionic-native/db-meter",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "D:\\workspace_skyware\\Test"
+    ]
+  ],
+  "_from": "@ionic-native/db-meter@latest",
+  "_id": "@ionic-native/db-meter@3.13.0",
+  "_inCache": true,
+  "_location": "/@ionic-native/db-meter",
+  "_nodeVersion": "6.11.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/db-meter-3.13.0.tgz_1499082162007_0.4219924050848931"
+  },
+  "_npmUser": {
+    "name": "ihadeed",
+    "email": "ibby@zyra.ca"
+  },
+  "_npmVersion": "3.10.10",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "@ionic-native/db-meter",
+    "scope": "@ionic-native",
+    "escapedName": "@ionic-native%2fdb-meter",
+    "name": "@ionic-native/db-meter",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@ionic-native/db-meter/-/db-meter-3.13.0.tgz",
+  "_shasum": "35cfb29a4c3b998ac1e5b297ef4e30e233af5180",
+  "_shrinkwrap": null,
+  "_spec": "@ionic-native/db-meter",
+  "_where": "D:\\workspace_skyware\\Test",
+  "author": {
+    "name": "ionic"
+  },
+  "bugs": {
+    "url": "https://github.com/ionic-team/ionic-native/issues"
+  },
+  "dependencies": {},
+  "description": "Ionic Native - Native plugins for ionic apps",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "35cfb29a4c3b998ac1e5b297ef4e30e233af5180",
+    "tarball": "https://registry.npmjs.org/@ionic-native/db-meter/-/db-meter-3.13.0.tgz"
+  },
+  "homepage": "https://github.com/ionic-team/ionic-native#readme",
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "ihadeed",
+      "email": "ibby@zyra.ca"
+    },
+    {
+      "name": "maxlynch",
+      "email": "max@ionic.io"
+    },
+    {
+      "name": "ionicjs",
+      "email": "hi@ionicframework.com"
+    }
+  ],
+  "module": "index.js",
+  "name": "@ionic-native/db-meter",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "@ionic-native/core": "^3.6.0",
+    "@angular/core": "*",
+    "rxjs": "^5.0.1"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ionic-team/ionic-native.git"
+  },
+  "scripts": {},
+  "typings": "index.d.ts",
+  "version": "3.13.0"
+}

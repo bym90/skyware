@@ -1,0 +1,23 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Notice Update
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+  <ion-grid>
+    <ion-row>
+      <ion-col col-2><ion-label color="primary">제목</ion-label></ion-col>
+      <ion-col col-10><ion-input type="text" [(ngModel)]="notice.title" id="noticeTitle" name="noticeTitle" #noticeTitle></ion-input></ion-col>
+    </ion-row>
+    <ion-row>
+      <ion-col col-2><ion-label color="primary">내용</ion-label></ion-col>
+      <ion-col col-10><ion-textarea [(ngModel)]="notice.body" id="noticeBody" name="noticeBody" #noticeBody></ion-textarea></ion-col>
+    </ion-row>
+  </ion-grid>
+  <div padding>
+    <button ion-button color="primary" (click)="btnNoticeUpt();" block>수정</button>
+    <button ion-button color="primary" (click)="btnCancel();" block>취소</button>
+  </div>
+</ion-content>

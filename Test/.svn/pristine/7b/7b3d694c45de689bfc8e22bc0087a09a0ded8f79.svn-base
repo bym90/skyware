@@ -1,0 +1,111 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>Home</ion-title>
+    <ion-buttons end>
+      <button ion-button icon-only (click)="btnLogout();">
+        <ion-icon name="log-out"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+
+    <ion-card-header>
+      이번주 일정
+    </ion-card-header>
+    <ion-card-content>
+      <ion-grid id="weekList">
+        <ion-row>
+          <ion-col col-6 class="title">제목</ion-col>
+          <ion-col col-6>일정시작날짜</ion-col>
+        </ion-row>
+        <ion-row class="weekList" *ngFor="let week of weekList; let i = index" (click)="viewModal(week)">
+          <ion-col col-6>{{ week.schTitle }}</ion-col>
+          <ion-col col-6>{{ week.schStartDate }}</ion-col>
+          <!-- <ion-col col-6 bindon-ngModel="week.schTitle">{{ week.schTitle }}</ion-col>
+          <ion-col col-6 bindon-ngModel="week.schStartDate">{{ week.schStartDate }}</ion-col> -->
+        </ion-row>
+        <ion-row>
+          <ion-col col-12 align="center">{{ noWeek }}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+
+  </ion-card>
+
+  <ion-card>
+
+    <ion-card-header>
+      이번달 생일자
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid id="birthList">
+        <ion-row>
+          <ion-col col-6>이름</ion-col>
+          <ion-col col-6>생일</ion-col>
+        </ion-row>
+        <ion-row class="birthList" *ngFor="let birth of birthList; let i = index">
+          <ion-col col-6>{{ birth.userNm }}</ion-col>
+          <ion-col col-6>{{ birth.userBirth }}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+
+  </ion-card>
+
+  <!--
+  <input type="text" #userId />
+  <input type="password" #userPw />
+  <input type="button" (click)="btnLogin(userId.value, userPw.value);" value="로그인" />
+  <input type="button" (click)="btnJoin();" value="회원가입" />
+  <input type="button" (click)="btnLogout();" value="로그아웃" />
+  <input type="button" (click)="onClick();" value="TEST" />
+
+  <ion-buttons left>
+    <button>
+        <ion-icon name="home"></ion-icon>
+    </button>
+  </ion-buttons>
+
+  <ion-buttons right>
+    <button primary>Login</button>
+    <button><ion-icon name="search"></ion-icon></button>
+  </ion-buttons>
+
+  <button menuToggle right>
+    <ion-icon name="menu"></ion-icon>
+  </button>
+
+  <ion-buttons end>
+    <button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+  </ion-buttons>
+
+  
+  <label class="item item-input">
+    <input ng-model="username" type="text" placeholder="ID를 입력하세요.">
+  </label>
+  <label class="item item-input">
+    <input ng-model="password" type="password" placeholder="비밀번호를 입력하세요.">
+  </label>
+  <label class="item item-input">
+     <input class="button button-positive" type="button" (click)="onClick();" value="로그인" />
+  </label>-->
+  <!--<ion-input class="ng-pristine ng-valid ng-touched" aria-placeholder="!!!!!!!!!!!!!!">
+    <input type="text" id="userId" name="userPw" placeholder="ID를 입력하세요." />
+    <input type="password" id="userPw" name="userPw" placeholder="비밀번호를 입력하세요." />
+    <input type="button" (click)="onClick();" value="로그인" />
+  </ion-input>  -->
+  <!--template: '<button ion-button (click)="onClick()">testList</button>'-->
+
+  <!--<div id="testList" *ngFor = "let test of temp; let i = index">
+    {{ i + 1 }}.{{test}}
+  </div>-->
+</ion-content>

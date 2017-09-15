@@ -1,0 +1,26 @@
+import { Component } from '@angular/core';
+
+//import { AboutPage } from '../about/about';
+import { MyPage } from '../myPage/myPage';
+import { HomePage } from '../home/home';
+import { CalendarPage } from '../calendar/calendar';
+import { NoticeListPage } from '../notice/noticeList';
+// import { NavController, AlertController } from 'ionic-angular';
+// import { Http, Headers, RequestOptions } from '@angular/http';
+
+@Component({
+  templateUrl: 'tabs.html'
+})
+export class TabsPage {
+
+  tab1Root = HomePage;
+  //tab2Root = AboutPage;
+  tab2Root = NoticeListPage;
+  tab3Root = CalendarPage;
+  tab4Root = MyPage;
+
+
+  constructor() {
+   
+  }
+}

@@ -1,0 +1,44 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Notice Write
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content padding>
+    <!-- <div class="container form-inline">  
+        <table class="table table-hover">
+            <colgroup>
+                <col style="width:15%">
+                <col style="width:85%">
+            </colgroup>
+            <tr>
+                <td>제목</td>
+                <td><input type="text" id="noticeTitle" name="noticeTitle" class="form-control" size="100" #noticeTitle /></td>  
+            </tr>
+            <tr>
+                <td>내용</td>
+                <td><input type="text" id="userId" name="userId" class="form-control" #userId /></td>
+                <td><textarea id="noticeBody" name="noticeBody" class="form-control" cols="100" rows="5" #noticeBody ></textarea></td>
+            </tr>
+        </table>
+    </div>
+    <div>
+        <input type="button" class="form-control" (click)="btnNoticeWrt(noticeTitle.value, noticeBody.value);" value="작성" />
+        <input type="button" class="form-control" (click)="btnCancel();" value="취소" />
+    </div> -->
+    <ion-grid>
+        <ion-row>
+            <ion-col col-2><ion-label color="primary">제목</ion-label></ion-col>
+            <ion-col col-10><ion-input type="text" [(ngModel)]="notice.title" id="noticeTitle" name="noticeTitle" #userId></ion-input></ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-2><ion-label color="primary">내용</ion-label></ion-col>
+            <ion-col col-10><ion-textarea [(ngModel)]="notice.body" id="noticeBody" name="noticeBody" #userId></ion-textarea></ion-col>
+        </ion-row>
+    </ion-grid>
+    <div padding>
+        <button ion-button color="primary" (click)="btnNoticeWrt();" block>작성</button>
+        <button ion-button color="primary" (click)="btnCancel();" block>취소</button>
+    </div>
+</ion-content>

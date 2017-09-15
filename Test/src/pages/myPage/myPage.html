@@ -1,0 +1,43 @@
+<ion-header>
+  <ion-navbar>
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      MyPage
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-card>
+    <ion-card-header>
+      내 정보
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-item *ngFor="let item of userInfo">
+        {{item}}
+      </ion-item>
+    </ion-card-content>
+  </ion-card>
+
+  <ion-card>
+    <ion-card-header>
+      내가 작성한 일정
+    </ion-card-header>
+
+    <ion-card-content>
+      <ion-grid id="myWritingList">
+        <ion-row>
+          <ion-col col-6>제목</ion-col>
+          <ion-col col-6>내용</ion-col>
+        </ion-row>
+        <ion-row class="myWritingList" *ngFor="let wList of myWritingList; let i = index" (click)="viewModal(wList)">
+          <ion-col col-6>{{ wList.schTitle }}</ion-col>
+          <ion-col col-6>{{ wList.schBody }}</ion-col>
+        </ion-row>
+      </ion-grid>
+    </ion-card-content>
+  </ion-card>
+</ion-content>

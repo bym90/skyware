@@ -1,0 +1,65 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>일정 작성</ion-title>
+  </ion-navbar>
+</ion-header>
+
+
+<ion-content>
+  <ion-input type="hidden" [(ngModel)]="event.writerId"></ion-input>
+  <ion-list>
+    <ion-item>
+      <ion-label>카테고리</ion-label>
+      <ion-select [(ngModel)]="event.cate1">
+        <ion-option *ngFor="let opt1 of cate1" [value]="opt1.codeNm">{{opt1.codeNm}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>세부카테고리</ion-label>
+      <ion-select [(ngModel)]="event.cate2">
+        <ion-option *ngFor="let opt2 of cate2" [value]="opt2.codeNm">{{opt2.codeNm}}</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>일정제목</ion-label>
+      <ion-input type="text" [(ngModel)]="event.title"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>일정내용</ion-label>
+      <ion-input type="text" [(ngModel)]="event.content"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label floating>메모</ion-label>
+      <ion-input type="text" [(ngModel)]="event.memo"></ion-input>
+      <!-- <ion-input type="hidden" [(ngModel)]="event.writerId"></ion-input> -->
+    </ion-item>
+
+    <ion-item>
+      <ion-label>일정시작날</ion-label>
+      <ion-datetime displayFormat="YYYY/MM/DD HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.startTime" [min]="minDate"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>일정마감날</ion-label>
+      <ion-datetime displayFormat="YYYY/MM/DD HH:mm" pickerFormat="MMM D:HH:mm" [(ngModel)]="event.endTime" [min]="minDate"></ion-datetime>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>진행률 (%)</ion-label>
+      <ion-input type="text" [(ngModel)]="event.completion"></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label>하루 종일</ion-label>
+      <ion-checkbox [(ngModel)]="event.allDay"></ion-checkbox>
+    </ion-item>
+
+  </ion-list>
+  <button ion-button full icon-left outline (click)="modify(event)">
+      <ion-icon name="color-wand"></ion-icon>일정수정
+    </button>
+</ion-content>

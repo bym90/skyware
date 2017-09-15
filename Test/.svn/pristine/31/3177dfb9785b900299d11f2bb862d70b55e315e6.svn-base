@@ -1,0 +1,53 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>Login</ion-title>
+  </ion-navbar>
+</ion-header>
+<ion-content>
+  
+  <!-- <div class="container form-inline">
+    <form id="userLoginForm" name="userLoginForm" method="post">
+      <table class="table table-hover">
+        <colgroup>
+          <col style="width:15%">
+          <col style="width:85%">
+        </colgroup>
+        <tr>
+          <th>ID</th>
+          <td><input type="text" id="userId" name="userId" #userId /></td>
+        </tr>
+        <tr>
+          <th>비밀번호</th>
+          <td><input type="password" id="userPw" name="userPw" #userPw /></td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <div>
+    <input type="button" class="form-control" (click)="btnLogin(userId.value, userPw.value);" value="로그인" />
+    <input type="button" class="form-control" (click)="btnJoin();" value="회원가입" />
+    <input type="button" class="form-control" (click)="btnCancel();" value="" />
+  </div> -->
+
+  <ion-list>
+    <form (submit)="doLogin()">
+      <ion-item>
+        <ion-label fixed>ID</ion-label>
+        <ion-input type="text" [(ngModel)]="userInfo.userId" id="userId" name="userId" #userId></ion-input> 
+      </ion-item>
+
+      <ion-item>
+        <ion-label fixed>Password</ion-label>
+        <ion-input type="password" [(ngModel)]="userInfo.userPw" id="userPw" name="userPw" #userPw></ion-input>
+      </ion-item>
+
+      <div margin>
+        <button ion-button color="primary" block>로그인</button>
+      </div>
+    </form>
+    <div margin>
+      <button ion-button color="primary" (click)="btnJoin();" block>회원가입</button>
+    </div>
+  </ion-list>
+
+</ion-content>

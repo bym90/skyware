@@ -1,0 +1,12 @@
+pase-noticeWrite
+{
+    textarea
+    {
+        height: 100px;
+    }
+
+    #noticeBody
+    {
+        height: 400px;
+    }
+}

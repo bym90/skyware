@@ -1,0 +1,73 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Notice List
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<script type="text/javascript" src="https://code.jquery.com/jquery-3.2.1.min.js"></script>
+<script>
+</script>
+<ion-content padding>
+  <!-- <div class="container form-inline">
+    <form id="noticeListForm" name="noticeListForm" method="post">
+      <table class="table table-hover">
+        <colgroup>
+          <col style="width:5%">
+          <col style="width:55%">
+          <col style="width:20%">
+          <col style="width:20%">
+        </colgroup>
+        <tr>
+          <th>NO</th>
+          <th>제목</th>
+          <th>작성자</th>
+          <th>작성날짜</th>
+        </tr>
+        <tr class="noticeList" (click)="noticeDetail(notice.noticeNo);" *ngFor = "let notice of noticeList; let i = index">
+          <td>{{ notice.rownum }}</td>
+          <td>{{ notice.noticeTitle }}</td>
+          <td>{{ notice.noticeWriter }}</td>
+          <td>{{ notice.noticeDate }}</td>
+        </tr>
+      </table>
+    </form>
+  </div>
+  <div>
+    <input type="button" class="form-control" (click)="btnWrite();"  value="글쓰기" />
+    <input type="button" class="form-control" (click)="btnListPlus();"  value="더보기" />
+    <input type="button" class="form-control" (click)="btnCancel();" value="" />
+  </div> -->
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content
+      pullingIcon="arrow-dropdown"
+      pullingText="Pull to refresh"
+      refreshingSpinner="circles"
+      refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  
+  <ion-grid id="noticeList">
+    <ion-row>
+      <ion-col col-1>NO</ion-col>
+      <ion-col col-6>제목</ion-col>
+      <ion-col col-2>작성자</ion-col>
+      <ion-col col-3>작성일</ion-col>
+    </ion-row>
+    <ion-row class="noticeList" (click)="noticeDetail(notice.noticeNo, notice.rownum);" *ngFor = "let notice of noticeList; let i = index">
+      <ion-col col-1>{{ notice.rownum }}</ion-col>
+      <ion-col col-6>{{ notice.noticeTitle }}</ion-col>
+      <ion-col col-2>{{ notice.noticeWriter }}</ion-col>
+      <ion-col col-3>{{ notice.noticeDate }}</ion-col>
+    </ion-row>
+    <!-- <div id="noticeList"></div> -->
+  </ion-grid>
+  <ion-input type="hidden" [(ngModel)]="notice.sPage" id="sPage" name="sPage" #sPage></ion-input>
+  <ion-input type="hidden" [(ngModel)]="notice.ePage" id="ePage" name="ePage" #ePage></ion-input>
+  <ion-input type="hidden" [(ngModel)]="notice.curPage" id="curPage" name="curPage" #curPage></ion-input>
+  <ion-input type="hidden" [(ngModel)]="notice.totalCnt" id="totalCnt" name="totalCnt" #totalCnt></ion-input>
+  <div padding>
+    <button ion-button color="primary" (click)="btnWrite();" block>글쓰기</button>
+    <!-- <button ion-button color="primary" id="btnListPlus" (click)="btnListPlus();" block>더보기</button> -->
+  </div>
+</ion-content>

@@ -1,0 +1,266 @@
+import { Component } from '@angular/core';
+import { NavController, ModalController, AlertController } from 'ionic-angular';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import * as moment from 'moment';
+import 'rxjs/add/operator/map';
+
+@Component({
+  selector: 'page-calendar',
+  templateUrl: 'calendar.html'
+})
+export class CalendarPage {
+    eventSource=[];
+    isToday: boolean;
+    viewTitle : string;
+    selectedDay = new Date();
+    calendarList: object;
+
+    calendar = {
+        mode: 'month',
+        currentDate: new Date()
+        
+    }
+  
+  constructor(public navCtrl: NavController, private modalCtrl: ModalController, private alertCtrl: AlertController, private http: Http) {
+    // this.loadEvents(new Date());
+    // var addr = "http://localhost:8080/mobile/calendarList";
+    // let headers = new Headers({"Content-Type": "application/x-www-form-urlencoded"});
+    // let options = new RequestOptions({headers: headers});
+    
+    // var current = new Date();
+    // var month = current.getUTCMonth();
+    // var year = current.getUTCFullYear();
+    // var date = current.getUTCDate();
+    
+    // // var tempNow = new Date(Date.UTC(year, month, date));
+    // var tempBefore = new Date(year, month - 1, date);
+    // var tempAfter = new Date(year, month + 1, date);
+
+    // // var beforeMonth = new Date(Date.UTC(year, month - 1, date));
+    // // var afterMonth = new Date(Date.UTC(year, month + 1, date));
+
+    // var beforeMonth = moment(tempBefore).format('YYYY-MM-DD');
+    // var afterMonth = moment(tempAfter).format('YYYY-MM-DD');
+  
+    // console.log(current+"------------------------------------");
+    // // console.log(tempNow+"------------------------------------");
+    // console.log(tempBefore+"------------------------------------");
+    // console.log(tempAfter+"------------------------------------");
+    // console.log(beforeMonth+"------------------------------------");
+    // console.log(afterMonth+"------------------------------------");
+
+    // // var now = "now=" + moment(temp).format('YYYY-MM-dd');
+    // var now = "beforeMonth=" + beforeMonth + "&afterMonth=" + afterMonth;
+    // var swiped = false;
+    // var swipedTime = new Date();
+    // this.loadEvents(swipedTime);
+    // console.log("---------------------------"+year_month);
+    // this.http.post(addr, now, options)
+    //   .map(res=>res.json())
+    //   .subscribe((res)=>{
+    //               this.calendarList = res.calendarList;
+    //               this.eventSource = [];
+    //               let events = this.eventSource;
+
+    //               for(var index = 0;  index < res.calendarList.length; index++){
+    //                 let eventData = res.calendarList[index];
+
+    //                 eventData.startTime = new Date(res.calendarList[index].schStartDate);
+    //                 eventData.endTime = new Date(res.calendarList[index].schEndDate);;
+    //                 eventData.saveTime = new Date(res.calendarList[index].schSaveDate);
+    //                 eventData.title = res.calendarList[index].schTitle;
+    //                 eventData.content = res.calendarList[index].schBody;
+    //                 eventData.memo = res.calendarList[index].schMemo;
+    //                 eventData.cate1 = res.calendarList[index].schCate1;
+    //                 eventData.cate2 = res.calendarList[index].schCate2;
+    //                 eventData.completion = res.calendarList[index].schCompletion;
+
+    //                 if(res.calendarList[index].schAllDay == 'Y'){
+    //                   eventData.allDay = true
+    //                 } else {
+    //                   eventData.allDay = false
+    //                 }
+
+    //                 events.push(eventData);
+
+    //               }
+
+    //               setTimeout(() => {
+    //                   this.eventSource = events;
+    //                 });
+
+                    
+                  
+    //             }, (err) => {
+    //               console.log(err);
+    //                 let alert = this.alertCtrl.create({
+    //                   title: '일정이 조회되지 않습니다. 관리자에게 문의하세요',
+    //                   buttons: ['확인']
+    //                 });
+    //                 alert.present();
+    //             });
+  }
+
+  today() {
+    this.calendar.currentDate = new Date();
+  }
+
+  changeMode(mode) {
+        this.calendar.mode = mode;
+  }
+
+  loadEvents(changeDate){
+    var addr = "http://localhost:8080/mobile/calendarList";
+    let headers = new Headers({"Content-Type": "application/x-www-form-urlencoded"});
+    let options = new RequestOptions({headers: headers});
+    var current = changeDate;
+
+    var month = current.getUTCMonth();
+    var year = current.getUTCFullYear();
+    var date = current.getUTCDate();
+    
+    // var tempNow = new Date(Date.UTC(year, month, date));
+    var tempBefore = new Date(Date.UTC(year, month - 2, date));
+    var tempAfter = new Date(Date.UTC(year, month + 2, date));
+
+    // var beforeMonth = new Date(Date.UTC(year, month - 1, date));
+    // var afterMonth = new Date(Date.UTC(year, month + 1, date));
+
+    var beforeMonth = moment(tempBefore).format('YYYY-MM-DD');
+    var afterMonth = moment(tempAfter).format('YYYY-MM-DD');
+  
+    console.log(current+"------------------------------------");
+    // console.log(tempNow+"------------------------------------");
+    console.log(tempBefore+"------------------------------------");
+    console.log(tempAfter+"------------------------------------");
+    console.log(beforeMonth+"------------------------------------");
+    console.log(afterMonth+"------------------------------------");
+
+    // var now = "now=" + moment(temp).format('YYYY-MM-dd');
+    var now = "beforeMonth=" + beforeMonth + "&afterMonth=" + afterMonth;
+
+
+    this.http.post(addr, now, options)
+      .map(res=>res.json())
+      .subscribe((res)=>{
+                  this.calendarList = res.calendarList;
+                  this.eventSource = [];
+                  let events = this.eventSource;
+
+                  for(var index = 0;  index < res.calendarList.length; index++){
+                    let eventData = res.calendarList[index];
+
+                    eventData.no = res.calendarList[index].schNo;
+                    eventData.startTime = new Date(res.calendarList[index].schStartDate);
+                    eventData.endTime = new Date(res.calendarList[index].schEndDate);;
+                    eventData.saveTime = new Date(res.calendarList[index].schSaveDate);
+                    eventData.title = res.calendarList[index].schTitle;
+                    eventData.content = res.calendarList[index].schBody;
+                    eventData.memo = res.calendarList[index].schMemo;
+                    eventData.cate1 = res.calendarList[index].schCate1;
+                    eventData.cate2 = res.calendarList[index].schCate2;
+                    eventData.completion = res.calendarList[index].schCompletion;
+                    eventData.writerId = res.calendarList[index].schWriterId;
+                   
+
+                    if(res.calendarList[index].schAllDay == 'Y'){
+                      eventData.allDay = true
+                    } else {
+                      eventData.allDay = false
+                    }
+
+                    events.push(eventData);
+
+                  }
+
+                  setTimeout(() => {
+                      this.eventSource = events;
+                    });
+
+                    
+                  
+                }, (err) => {
+                  console.log(err);
+                    let alert = this.alertCtrl.create({
+                      title: '일정이 조회되지 않습니다. 관리자에게 문의하세요',
+                      buttons: ['확인']
+                    });
+                    alert.present();
+                });
+  }
+
+
+  addEvent() {
+    let modal =this.modalCtrl.create('CalendarWriteModalPage', {selectedDay: this.selectedDay});
+    modal.present();
+
+    modal.onDidDismiss(data => {
+      if (data) {
+        let eventData = data;
+        
+        eventData.startTime = new Date(data.startTime);
+        eventData.endTime = new Date(data.endTime);
+        eventData.content = data.content;
+        eventData.cate1 = data.cate1;
+        eventData.cate2 = data.cate2;
+        eventData.saveTime = new Date();
+        eventData.completion = data.completion;
+        eventData.no = data.no;
+        
+        let events = this.eventSource;
+        events.push(eventData);
+        
+        this.eventSource = [];
+        setTimeout(() => {
+          this.eventSource = events;
+        });
+
+        }
+    });
+  }
+
+  onViewTitleChanged(title){
+     this.viewTitle = title;
+  }
+
+  onCurrentDateChanged(title){
+    var changeDate = title;
+    this.loadEvents(changeDate);
+  }
+
+  onTimeSelected(ev){      
+     this.selectedDay = ev.selectedTime;
+  }
+
+  // onEventSelected(event){
+  //   let start = moment(event.startTime).format('YYYY/MM/DD HH:mm');
+  //   let end  = moment(event.endTime).format('YYYY/MM/DD HH:mm');
+  //   let period;
+  //   let allday;
+  //   if(event.allDay == true){     
+  //     allday = '하루종일'
+  //     period = '';   
+  //   } else {
+  //     allday = '';
+  //     period = start + '<br>~' + end;      
+  //   }
+  
+  //   let alert = this.alertCtrl.create({
+  //      title: '일정: ' + event.title,
+  //      subTitle: '카테고리: ' + event.cate1 + '/' + event.cate2 + '<br>내용: ' + event.content + '<br>비고: ' + event.memo + '<br>진행률: ' + event.completion + '%' + '<br>기간: ' + allday + period,
+  //      buttons: ['수정', '확인'] 
+  //   });
+  //   alert.present();
+  //  }
+  onEventSelected(event){
+    console.log(event.no+"::::::::::::::::::::::::::::::::::::::::::::");
+    let start = moment(event.startTime).format('YYYY/MM/DD HH:mm');
+    let end  = moment(event.endTime).format('YYYY/MM/DD HH:mm');
+    let modal = this.modalCtrl.create('CalnedarViewModalPage', {calendarNo : event.no, startTime : start.toString(), endTime : end.toString(), cate1 : event.cate1, cate2 : event.cate2, 
+      title : event.title, content : event.content, memo : event.memo, completion : event.completion, writerId : event.writerId, allDay : event.allDay})
+    modal.present();
+   }
+}
+
+ 
+

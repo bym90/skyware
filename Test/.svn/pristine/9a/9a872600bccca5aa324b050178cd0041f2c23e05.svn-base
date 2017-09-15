@@ -1,0 +1,16 @@
+$(function(){
+    $("#btnLogin").on("click", function(){
+        alert($("#userId").val());
+        alert($("#userPw").val());
+    });
+});
+
+function btnLogin()
+{
+    var userId = document.getElementById("userId");
+    var userPw = document.getElementById("userPw");
+
+    alert(userId.value);
+    alert(userPw.value);
+    
+}

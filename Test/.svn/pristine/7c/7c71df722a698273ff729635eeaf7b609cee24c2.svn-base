@@ -1,0 +1,16 @@
+import { NgModule } from '@angular/core';
+import { IonicPageModule } from 'ionic-angular';
+import { CalnedarViewModalPage } from './calnedar-view-modal';
+
+@NgModule({
+  declarations: [
+    CalnedarViewModalPage,
+  ],
+  imports: [
+    IonicPageModule.forChild(CalnedarViewModalPage),
+  ],
+  exports: [
+    CalnedarViewModalPage
+  ]
+})
+export class CalnedarViewModalPageModule {}

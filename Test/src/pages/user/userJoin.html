@@ -1,0 +1,88 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>User Join</ion-title>
+  </ion-navbar>
+</ion-header>
+<script></script>
+<ion-content padding>
+  <ion-list>
+    <ion-item>
+      <ion-label fixed>아이디</ion-label>
+      <ion-input type="text" [(ngModel)]="userInfo.userId" id="userId" name="userId" #userId></ion-input> 
+    </ion-item>
+
+    <div>
+      <button ion-button color="primary" (click)="btnUserIdChk();" block>아이디 중복체크</button>
+    </div>
+
+    <ion-item>
+      <ion-label fixed>비밀번호</ion-label>
+      <ion-input type="password" [(ngModel)]="userInfo.userPw" id="userPw" name="userPw" #userPw></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>비밀번호 확인</ion-label>
+      <ion-input type="password" [(ngModel)]="userInfo.userPw2" id="userPw2" name="userPw2" #userPw2></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>이름</ion-label>
+      <ion-input type="text" [(ngModel)]="userInfo.userNm" id="userNm" name="userNm" #userNm></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>이메일</ion-label>
+      <ion-input type="email" [(ngModel)]="userInfo.userEmail" id="userEmail" name="userEmail" #userEmail></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>전화번호</ion-label>
+      <ion-input type="tel" [(ngModel)]="userInfo.userPhone" id="userPhone" name="userPhone" #userPhone></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>성별</ion-label>
+      <ion-select [(ngModel)]="userInfo.userGender" id="userGender" name="userGender" #userGender>
+        <ion-option value="M" ng-selected>남자</ion-option>
+        <ion-option value="F">여자</ion-option>
+      </ion-select>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>생년월일</ion-label>
+      <ion-select [(ngModel)]="userInfo.userSL" id="userSL" name="userSL" #userSL>
+        <ion-option value="S" selected="selected">양력</ion-option>
+        <ion-option value="L">음력</ion-option>
+      </ion-select><br>
+      <ion-input type="date" [(ngModel)]="userInfo.userBirth" id="userBirth" name="userBirth" #userBirth></ion-input>
+    </ion-item>
+
+    <ion-item>
+      <ion-label fixed>주소</ion-label>
+        <ion-input type="text" [(ngModel)]="userInfo.userAddrFull" id="userAddrFull" name="userAddrFull" #userAddrFull></ion-input>
+    </ion-item>
+    <div>
+      <button ion-button color="primary" (click)="btnJusoSearch();" block>주소검색</button>
+    </div>
+
+    <ion-item>
+      <ion-label fixed>상세주소</ion-label>
+      <ion-input type="text" [(ngModel)]="userInfo.userAddrDetail" id="userAddrDetail" name="userAddrDetail" #userAddrDetail></ion-input>
+    </ion-item>
+
+    <ion-input type="hidden" [(ngModel)]="userInfo.idChk" id="idChk" name="idChk" #idChk></ion-input>
+    <ion-input type="hidden" [(ngModel)]="userInfo.userAddrFullRoad" id="userAddrFullRoad" name="userAddrFullRoad" #userAddrFullRoad></ion-input>
+    <ion-input type="hidden" [(ngModel)]="userInfo.userAddrSido" id="userAddrSido" name="userAddrSido" #userAddrSido></ion-input>
+    <ion-input type="hidden" [(ngModel)]="userInfo.userAddrSigungu" id="userAddrSigungu" name="userAddrSigungu" #userAddrSigungu></ion-input>
+    <ion-input type="hidden" [(ngModel)]="userInfo.userAddrEMD" id="userAddrEMD" name="userAddrEMD" #userAddrEMD></ion-input>
+    <ion-input type="hidden" [(ngModel)]="userInfo.userAddrJibun" id="userAddrJibun" name="userAddrJibun" #userAddrJibun></ion-input>
+    <ion-input type="hidden" [(ngModel)]="userInfo.userAddrRoad" id="userAddrRoad" name="userAddrRoad" #userAddrRoad></ion-input>
+    <ion-input type="hidden" [(ngModel)]="userInfo.userAddrBuldNo" id="userAddrBuldNo" name="userAddrBuldNo" #userAddrBuldNo></ion-input>
+    <ion-input type="hidden" [(ngModel)]="userInfo.userZipCode" id="userZipCode" name="userZipCode" #userZipCode></ion-input>   
+
+    <div margin>
+      <button ion-button color="primary" (click)="btnJoin();" block>가입</button>
+      <button ion-button color="primary" (click)="btnCancel();" block>취소</button>
+    </div>
+  </ion-list>
+</ion-content>

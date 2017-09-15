@@ -1,0 +1,76 @@
+<!--
+  Generated template for the CalnedarViewModalPage page.
+
+  See http://ionicframework.com/docs/components/#navigation for more info on
+  Ionic pages and navigation.
+-->
+<ion-header>
+
+  <ion-navbar>
+    <ion-title>일정 상세</ion-title>
+  </ion-navbar>
+
+</ion-header>
+  
+<ion-content padding>
+<ion-card>
+  <ion-card-header>
+    {{event.title}}
+  </ion-card-header>
+  <ion-card-content>
+    <table class="table">
+      <tr>
+        <td>시작</td>
+        <td>
+          <ion-input type="text" readonly [(ngModel)]="event.startTime"></ion-input>
+          <ion-input type="hidden" [(ngModel)]="event.title"></ion-input>
+        </td>
+      </tr>
+      <tr>
+        <td>마감</td>
+        <td><ion-input type="text" readonly [(ngModel)]="event.endTime"></ion-input></td>
+      </tr>
+      <tr>
+        <td>카테고리</td>
+        <td><ion-input type="text" readonly [(ngModel)]="event.cate1"></ion-input></td>
+      </tr>
+      <tr>
+        <td>세부카테고리</td>
+        <td><ion-input type="text" readonly [(ngModel)]="event.cate2"></ion-input></td>
+      </tr>
+      <tr>
+        <td>내용</td>
+        <td><ion-input type="text" readonly [(ngModel)]="event.content"></ion-input></td>
+      </tr>
+      <tr>
+        <td>메모</td>
+        <td><ion-input type="text" readonly [(ngModel)]="event.memo"></ion-input></td>
+      </tr>
+      <tr>
+        <td>진행률(%)</td>
+        <td><ion-input type="text" readonly [(ngModel)]="event.completion"></ion-input></td>
+      </tr>
+      <tr>
+        <td>작성자</td>
+        <td><ion-input type="text" readonly [(ngModel)]="event.writerId"></ion-input></td>
+      </tr>
+      <tr>
+        <td>하루종일</td>
+        <td>
+          <ion-item>
+            <ion-checkbox [(ngModel)]="event.allDay" ng-checked="event.allDay" disabled></ion-checkbox>
+          </ion-item>
+        </td>
+      </tr>
+    </table>
+  </ion-card-content>
+</ion-card>
+   <div align="right">
+      <button ion-button (click)="modify(event)">
+          <ion-icon name="color-wand"></ion-icon>&nbsp;&nbsp;수정
+      </button>
+      <button ion-button (click)="cancel()">
+          <ion-icon name="checkmark"></ion-icon>&nbsp;&nbsp;확인
+      </button>
+   </div>
+</ion-content>

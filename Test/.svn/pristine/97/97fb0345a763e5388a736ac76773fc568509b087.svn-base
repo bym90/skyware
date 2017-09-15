@@ -1,0 +1,77 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Notice Detail
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+<!-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/css/bootstrap-theme.min.css">
+<script type="text/javascript" src="/resources/js/jquery/jquery-1.11.3.min.js"></script>
+<script type="text/javascript" src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.2/js/bootstrap.min.js"></script> -->
+<ion-content padding>
+    <!-- <div class="container form-inline">  
+        <table class="table table-hover">
+            <colgroup>
+                <col style="width:15%">
+                <col style="width:85%">
+            </colgroup>
+            <tr>
+                <td>NO</td>
+                <td>{{ noticeNo }}</td>
+                왜 안되는 거지?
+                <td>{{ notice.noticeNo }}</td>
+            </tr>
+            <tr>
+                <td>작성자</td>
+                <td>{{ noticeWriter }}</td> 
+            </tr>
+            <tr>
+                <td>작성일</td>
+                <td>{{ noticeDate }}</td> 
+            </tr>
+            <tr>
+                <td>제목</td>
+                <td>{{ noticeTitle }}</td>  
+            </tr>
+            <tr>
+                <td>내용</td>
+                <td>{{ noticeBody }}</td>  
+            </tr>
+        </table>
+    </div>
+    <div>
+        <input type="button" class="form-control" (click)="btnNoticeList();" value="목록" />
+        <input type="button" class="form-control" (click)="btnNoticeUpt();" value="수정" />
+        <input type="button" class="form-control" (click)="btnNoticeDel();" value="삭제" />
+        <input type="button" class="form-control" (click)="btnCancel();" value="" />
+    </div> -->
+    <ion-grid>
+        <ion-row>
+            <ion-col col-2>NO</ion-col>
+            <!-- <ion-col col-5>{{ noticeNo }}</ion-col> -->
+            <ion-col col-10>{{ rownum }}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-2>작성자</ion-col>
+            <ion-col col-10>{{ noticeWriter }}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-2>작성일</ion-col>
+            <ion-col col-10>{{ noticeDate }}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-2>제목</ion-col>
+            <ion-col col-10>{{ noticeTitle }}</ion-col>
+        </ion-row>
+        <ion-row>
+            <ion-col col-2>내용</ion-col>
+            <ion-col col-10>{{ noticeBody }}</ion-col>
+        </ion-row>
+    </ion-grid>
+    <div padding>
+        <button ion-button color="primary" (click)="btnNoticeUpt();" block>수정</button>
+        <button ion-button color="primary" (click)="btnNoticeDel();" block>삭제</button>
+        <button ion-button color="primary" (click)="btnNoticeList();" block>목록</button>
+    </div>
+</ion-content>

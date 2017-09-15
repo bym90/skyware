@@ -1,0 +1,40 @@
+<ion-header>
+  <ion-navbar align-title="left">
+    <button ion-button menuToggle>
+      <ion-icon name="menu"></ion-icon>
+    </button>
+    <ion-title>
+      {{ viewTitle }}
+    </ion-title>
+    <ion-buttons end>
+      <button ion-button [disabled]="isToday" (click)="today()">오늘</button>
+      <!-- <button ion-button (click)="changeMode('month')">월간</button>  
+      <button ion-button (click)="changeMode('week')" >주간</button>   -->
+      <button ion-button icon-only (click)="addEvent()">
+        <ion-icon name="add"></ion-icon>
+      </button>
+    </ion-buttons>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-refresher (ionRefresh)="doRefresh($event)">
+    <ion-refresher-content pullingIcon="arrow-dropdown" pullingText="Pull to refresh" refreshingSpinner="circles" refreshingText="Refreshing...">
+    </ion-refresher-content>
+  </ion-refresher>
+  <calendar 
+    [monthviewEventDetailTemplate]="template" [eventSource]="eventSource" [calendarMode]="calendar.mode" [currentDate]="calendar.currentDate"
+    [monthviewEventDetailTemplate]="template" (onCurrentDateChanged)="onCurrentDateChanged($event)" (onEventSelected)="onEventSelected($event)"
+    (onTitleChanged)="onViewTitleChanged($event)" (onTimeSelected)="onTimeSelected($event)" step="30" class="calendar">
+  </calendar>
+  <!-- <ion-buttons end>  
+         <button ion-button icon-only (click)="loadEvents()">
+            <ion-icon name="add"></ion-icon>
+         </button>
+      </ion-buttons> -->
+  <!-- <div id="calendarList" *ngFor = "let test of calendarList; let i = index">
+    {{ i + 1 }}.{{test.schNo}}
+    {{ i + 1 }}.{{test.schTitle}}
+  </div>    -->
+</ion-content>
+

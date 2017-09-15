@@ -1,0 +1,16 @@
+<ion-header>
+  <ion-navbar>
+    <ion-title>
+      Address
+    </ion-title>
+  </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+  <ion-item class="addrList" (click)="onclick(addr.userAddrFull, addr.userAddrFullRoad, addr.userAddrSido, addr.userAddrSigungu, addr.userAddrEMD, addr.userAddrJibun, addr.userAddrRoad, addr.userAddrBuld, addr.userZipcode);" *ngFor = "let addr of addrList; let i = index">
+    <ion-label>
+      {{ addr.userAddrFull }}<br>
+      {{ addr.userAddrFullRoad }}
+    </ion-label>
+  </ion-item>
+</ion-content>

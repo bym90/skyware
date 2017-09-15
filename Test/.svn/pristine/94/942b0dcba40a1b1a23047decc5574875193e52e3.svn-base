@@ -1,0 +1,236 @@
+import { Component, ModuleWithProviders, OnInit } from '@angular/core';
+// import { Routes, RouterModule } from '@angular/router';
+import { IonicPage, NavController, NavParams, ViewController, ModalController, AlertController } from 'ionic-angular';
+import * as moment from 'moment';
+import { Http, Headers, RequestOptions } from '@angular/http';
+import { CalendarWriteModalPage } from '../calendar-write-modal/calendar-write-modal';
+
+/**
+ * Generated class for the CalendarViewModalPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+@IonicPage()
+@Component({
+  selector: 'page-calendar-view-modal',
+  templateUrl: 'calendar-view-modal.html',
+})
+export class CalendarViewModalPage {
+  eventSource=[];
+  cate1 = [];
+  cate2 = [];
+  event = {calendarNo : String(), startTime: String(), endTime: String(), cate1 : String(), cate2 : String(), title : String(), content : String(), memo : String(), completion : Number(), writerId : String(), allDay : Boolean, modifyFlag : String(), userNm : String()}
+  constructor(public navCtrl: NavController, public navParams: NavParams,  private viewCtrl: ViewController, private modalCtrl: ModalController, private http: Http, private alertCtrl: AlertController) {
+    console.log(this.navParams.get('calendarNo')+"navparamsssssssssssssss");
+    
+    let preselectedNo = this.navParams.get('calendarNo');
+    let preselectedStartDate = moment(this.navParams.get('startTime')).format("YYYY/MM/DD HH:mm");
+    let preselectedEndDate = moment(this.navParams.get('endTime')).format("YYYY/MM/DD HH:mm");
+    let preselectedCate1 = this.navParams.get('cate1');
+    let preselectedCate2 = this.navParams.get('cate2');
+    let preselectedTitle = this.navParams.get('title');
+    let preselectedContent = this.navParams.get('content');
+    let preselectedMemo = this.navParams.get('memo');
+    let preselectedCompletion = this.navParams.get('completion');
+    let preselectedWriterId = this.navParams.get('writerId');
+    let preselectedAllDay = this.navParams.get('allDay');
+    let preselectedUserNm = this.navParams.get('userNm');
+    
+    console.log(preselectedNo+"start::::::::::::::::::::");
+    console.log(preselectedStartDate);
+    console.log(preselectedEndDate);
+    console.log(preselectedCate1);
+    console.log(preselectedCate2);
+    console.log(preselectedTitle);
+    console.log(preselectedContent);
+    console.log(preselectedMemo);
+    console.log(preselectedCompletion);
+    console.log(preselectedWriterId);
+    console.log(preselectedAllDay);
+    console.log(preselectedUserNm+"end::::::::::::::::::::");
+    
+
+    this.event.calendarNo = preselectedNo;
+    this.event.startTime = preselectedStartDate;
+    this.event.endTime = preselectedEndDate;
+    this.event.title = preselectedTitle;
+    this.event.cate1 = preselectedCate1;
+    this.event.cate2 = preselectedCate2;
+    this.event.content = preselectedContent;
+    this.event.memo = preselectedMemo;
+    this.event.completion = preselectedCompletion;
+    this.event.writerId = preselectedWriterId;
+    this.event.allDay = preselectedAllDay;
+    this.event.userNm = preselectedUserNm;
+
+    // var localUserId = localStorage.getItem("userId");
+    
+    // if(localUserId == preselectedWriterId){
+    //   this.event.modifyFlag = "false";
+    // } else{
+    //   this.event.modifyFlag = "true";
+    // }
+
+  }
+
+  cancel() {
+    this.viewCtrl.dismiss();
+  }
+  
+  // refreshPage(){
+  //   this.location.reload();
+  // }
+
+  modifyReq(event){ 
+    var addr = "http://localhost:8080/mobile/calendarGetCate";
+    let headers = new Headers({"Content-Type": "application/x-www-form-urlencoded"});
+    let options = new RequestOptions({headers: headers});
+    let data = "CATE=" + 'CATE';
+
+    // let cate1 = [];
+    // let cate2 = [];
+    
+    this.http.post(addr, data, options)
+    .map(res=>res.json())
+    .subscribe((res)=>{
+
+              for(var index = 0;  index < res.calendarCateList1.length; index++){ 
+                  let temp1 = res.calendarCateList1[index];
+                  let temp2 = res.calendarCateList1[index];
+
+                  if(res.calendarCateList1[index].codeDiv == "CATE01"){
+                    temp1.codeId = res.calendarCateList1[index].codeId;
+                    temp1.codeNm = res.calendarCateList1[index].codeNm;
+                    this.cate1.push(temp1);
+                  } else {
+                    temp2.codeId = res.calendarCateList1[index].codeId;
+                    temp2.codeNm = res.calendarCateList1[index].codeNm;
+                    this.cate2.push(temp2);
+                  }   
+              }
+              }, (err) => {
+                console.log(err);
+                  let alert = this.alertCtrl.create({
+                    title: '카테고리가 없습니다. 관리자에게 문의하세요',
+                    buttons: ['확인']
+                  });
+                  alert.present();
+              });
+  }
+
+  modify(event){
+    var localId = localStorage.getItem("userId");
+    var tempWriterId = this.event.writerId
+    if(localId != tempWriterId){
+      let alert = this.alertCtrl.create({
+        title: '작성자만 수정할 수 있습니다.',
+        buttons: ['확인']
+      });
+      alert.present();
+      return;
+    }
+    var currentDate = moment(new Date()).format('YYYY/MM/DD HH:mm');
+    var endDate = this.navParams.get('endTime');
+    console.log(currentDate+"*****************************");
+    console.log(endDate+"*****************************");
+    if(endDate < currentDate){
+      let alert = this.alertCtrl.create({
+        title: '종료일자에는 일정을 수정할 수 없습니다.',
+        buttons: ['확인']
+      });
+      alert.present();
+      console.log("날짜비교 들어가냐?************************************************")
+      return;
+    }
+    // var addr = "http://localhost:8080/mobile/calendarGetCate";
+    // let headers = new Headers({"Content-Type": "application/x-www-form-urlencoded"});
+    // let options = new RequestOptions({headers: headers});
+    // let data = "CATE=" + 'CATE';
+
+    // let cate1 = [];
+    // let cate2 = [];
+    
+    // this.http.post(addr, data, options)
+    // .map(res=>res.json())
+    // .subscribe((res)=>{
+
+    //           for(var index = 0;  index < res.calendarCateList1.length; index++){ 
+    //               let temp1 = res.calendarCateList1[index];
+    //               let temp2 = res.calendarCateList1[index];
+
+    //               if(res.calendarCateList1[index].codeDiv == "CATE01"){
+    //                 temp1.codeId = res.calendarCateList1[index].codeId;
+    //                 temp1.codeNm = res.calendarCateList1[index].codeNm;
+    //                 cate1.push(temp1);
+    //               } else {
+    //                 temp2.codeId = res.calendarCateList1[index].codeId;
+    //                 temp2.codeNm = res.calendarCateList1[index].codeNm;
+    //                 cate2.push(temp2);
+    //               }
+                    
+    //           }
+
+    //           }, (err) => {
+    //             console.log(err);
+    //               let alert = this.alertCtrl.create({
+    //                 title: '카테고리가 없습니다. 관리자에게 문의하세요',
+    //                 buttons: ['확인']
+    //               });
+    //               alert.present();
+    //           });
+    this.modifyReq(event);
+    console.log(event.calendarNo+"------------------------------------------------")
+    let modal = this.modalCtrl.create(
+      'CalendarModifyModalPage', {calendarNo : event.calendarNo, startTime : event.startTime , endTime : event.endTime, cate1 : event.cate1, cate2 : event.cate2, 
+        title : event.title, content : event.content, memo : event.memo, completion : event.completion, writerId : event.writerId, 
+        allDay : event.allDay, temp1: this.cate1, temp2: this.cate2})
+    modal.present();
+    // modal.onDidDismiss(() => this.navCtrl.setRoot(CalendarViewModalPage));  
+    // modal.onDidDismiss(() => );  
+    // modal.onDidDismiss(() => CalendarViewModalPage.call);  
+    // modal.onWillDismiss(() => this.modifyReq(event));  
+    
+    // modal.onDidDismiss(() => this.navCtrl.push(CalnedarViewModalPage, {calendarNo : event.calendarNo, startTime : event.startTime , endTime : event.endTime, cate1 : event.cate1, cate2 : event.cate2, 
+    //   title : event.title, content : event.content, memo : event.memo, completion : event.completion, writerId : event.writerId, 
+    //   allDay : event.allDay, modifyFlag: true, temp1: cate1, temp2: cate2}));
+
+    
+    // 검색 이렇게 viewctrl.dismiss parent page reload
+    // modal.onDidDismiss(data => {
+    //   if (data) {
+    //     let eventData = data;
+
+    //     eventData.startTime =  new Date(data.startTime);
+    //     eventData.endTime = new Date(data.endTime);
+    //     eventData.content = data.content;
+    //     eventData.cate1 = data.cate1;
+    //     eventData.cate2 = data.cate2;
+    //     eventData.saveTime = new Date();
+    //     eventData.completion = data.completion;
+    //     eventData.writerId = data.writerId;
+    //     eventData.no = data.no;
+        
+    //     console.log(eventData.startTime);
+    //     console.log(eventData.endTime);
+    //     console.log(eventData.content);
+    //     console.log(eventData.cate1);
+    //     console.log(eventData.cate2);
+    //     console.log(eventData.saveTime);
+    //     console.log(eventData.completion);
+    //     console.log(eventData.writerId);
+    //     console.log(eventData.no);
+ 
+
+    //     let events = this.eventSource;
+    //     events.push(eventData);
+        
+    //     this.eventSource = [];
+    //     setTimeout(() => {
+    //       this.eventSource = events;
+    //     });
+
+    //     }
+    // });
+  }
+}

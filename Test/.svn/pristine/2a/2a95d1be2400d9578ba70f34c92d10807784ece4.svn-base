@@ -1,0 +1,254 @@
+webpackJsonp([1],{
+
+/***/ 976:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "calendarViewModalPageModule", function() { return calendarViewModalPageModule; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__calendar_view_modal__ = __webpack_require__(979);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+
+
+
+var calendarViewModalPageModule = (function () {
+    function calendarViewModalPageModule() {
+    }
+    return calendarViewModalPageModule;
+}());
+calendarViewModalPageModule = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["a" /* NgModule */])({
+        declarations: [
+            __WEBPACK_IMPORTED_MODULE_2__calendar_view_modal__["a" /* CalendarViewModalPage */],
+        ],
+        imports: [
+            __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["d" /* IonicPageModule */].forChild(__WEBPACK_IMPORTED_MODULE_2__calendar_view_modal__["a" /* CalendarViewModalPage */]),
+        ],
+        exports: [
+            __WEBPACK_IMPORTED_MODULE_2__calendar_view_modal__["a" /* CalendarViewModalPage */]
+        ]
+    })
+], calendarViewModalPageModule);
+
+//# sourceMappingURL=calendar-view-modal.module.js.map
+
+/***/ }),
+
+/***/ 979:
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (binding) */ __webpack_require__.d(__webpack_exports__, "a", function() { return CalendarViewModalPage; });
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__angular_core__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1_ionic_angular__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_moment___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_moment__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__angular_http__ = __webpack_require__(25);
+var __decorate = (this && this.__decorate) || function (decorators, target, key, desc) {
+    var c = arguments.length, r = c < 3 ? target : desc === null ? desc = Object.getOwnPropertyDescriptor(target, key) : desc, d;
+    if (typeof Reflect === "object" && typeof Reflect.decorate === "function") r = Reflect.decorate(decorators, target, key, desc);
+    else for (var i = decorators.length - 1; i >= 0; i--) if (d = decorators[i]) r = (c < 3 ? d(r) : c > 3 ? d(target, key, r) : d(target, key)) || r;
+    return c > 3 && r && Object.defineProperty(target, key, r), r;
+};
+var __metadata = (this && this.__metadata) || function (k, v) {
+    if (typeof Reflect === "object" && typeof Reflect.metadata === "function") return Reflect.metadata(k, v);
+};
+
+// import { Routes, RouterModule } from '@angular/router';
+
+
+
+/**
+ * Generated class for the CalendarViewModalPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+var CalendarViewModalPage = (function () {
+    function CalendarViewModalPage(navCtrl, navParams, viewCtrl, modalCtrl, http, alertCtrl) {
+        this.navCtrl = navCtrl;
+        this.navParams = navParams;
+        this.viewCtrl = viewCtrl;
+        this.modalCtrl = modalCtrl;
+        this.http = http;
+        this.alertCtrl = alertCtrl;
+        this.cate1 = [];
+        this.cate2 = [];
+        this.currentDate = __WEBPACK_IMPORTED_MODULE_2_moment__(new Date()).format('YYYY/MM/DD HH:mm');
+        this.event = { calendarNo: String(), startTime: String(), endTime: String(), saveTime: String(), cate1: String(), cate2: String(), title: String(), content: String(), memo: String(), completion: Number(), writerId: String(), allDay: Boolean, modifyFlag: String(), userNm: String() };
+        console.log(this.navParams.get('calendarNo') + "navparamsssssssssssssss");
+        this.event.calendarNo = this.navParams.get('calendarNo');
+        this.event.startTime = __WEBPACK_IMPORTED_MODULE_2_moment__(this.navParams.get('startTime')).format("YYYY/MM/DD HH:mm");
+        this.event.endTime = __WEBPACK_IMPORTED_MODULE_2_moment__(this.navParams.get('endTime')).format("YYYY/MM/DD HH:mm");
+        this.event.title = this.navParams.get('title');
+        this.event.cate1 = this.navParams.get('cate1');
+        this.event.cate2 = this.navParams.get('cate2');
+        this.event.content = this.navParams.get('content');
+        this.event.memo = this.navParams.get('memo');
+        this.event.completion = this.navParams.get('completion');
+        this.event.writerId = this.navParams.get('writerId');
+        this.event.allDay = this.navParams.get('allDay');
+        this.event.userNm = this.navParams.get('userNm');
+        console.log("올데이 : " + this.event.allDay);
+        console.log("카테1 : " + this.event.cate1);
+        console.log("카테2 : " + this.event.cate2);
+    }
+    CalendarViewModalPage.prototype.cancel = function () {
+        this.viewCtrl.dismiss(this.event);
+    };
+    CalendarViewModalPage.prototype.cateReq = function () {
+        var _this = this;
+        var addr = "http://localhost:8080/mobile/scheduleGetCate";
+        var headers = new __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Headers */]({ "Content-Type": "application/x-www-form-urlencoded" });
+        var options = new __WEBPACK_IMPORTED_MODULE_3__angular_http__["c" /* RequestOptions */]({ headers: headers });
+        var data = "CATE=" + 'CATE';
+        this.http.post(addr, data, options)
+            .map(function (res) { return res.json(); })
+            .subscribe(function (res) {
+            console.log(res);
+            for (var index = 0; index < res.scheduleCateList.length; index++) {
+                var temp1 = res.scheduleCateList[index];
+                var temp2 = res.scheduleCateList[index];
+                if (res.scheduleCateList[index].codeDiv == "CATE01") {
+                    temp1.codeId = res.scheduleCateList[index].codeId;
+                    temp1.codeNm = res.scheduleCateList[index].codeNm;
+                    _this.cate1.push(temp1);
+                }
+                else {
+                    temp2.codeId = res.scheduleCateList[index].codeId;
+                    temp2.codeNm = res.scheduleCateList[index].codeNm;
+                    _this.cate2.push(temp2);
+                }
+            }
+        }, function (err) {
+            console.log(err);
+            var alert = _this.alertCtrl.create({
+                title: '카테고리가 없습니다. 관리자에게 문의하세요',
+                buttons: ['확인']
+            });
+            alert.present();
+        });
+    };
+    CalendarViewModalPage.prototype.modify = function (event) {
+        var _this = this;
+        var endDate = this.navParams.get('endTime');
+        if (localStorage.getItem("userId") != this.event.writerId) {
+            var alert_1 = this.alertCtrl.create({
+                title: '작성자만 수정할 수 있습니다.',
+                buttons: ['확인']
+            });
+            alert_1.present();
+        }
+        else if (endDate < this.currentDate) {
+            var alert_2 = this.alertCtrl.create({
+                title: '지난 일정입니다. 수정할 수 없습니다.',
+                buttons: ['확인']
+            });
+            alert_2.present();
+        }
+        else {
+            this.cateReq();
+            var modal = this.modalCtrl.create('CalendarModifyModalPage', {
+                calendarNo: event.calendarNo, startTime: event.startTime, endTime: event.endTime, cate1: event.cate1, cate2: event.cate2,
+                title: event.title, content: event.content, memo: event.memo, completion: event.completion, writerId: event.writerId,
+                allDay: event.allDay, temp1: this.cate1, temp2: this.cate2
+            });
+            modal.present();
+            modal.onDidDismiss(function (data) {
+                if (data) {
+                    console.log(data);
+                    _this.event.startTime = __WEBPACK_IMPORTED_MODULE_2_moment__(data.startTime).format('YYYY/MM/DD HH:mm');
+                    _this.event.endTime = __WEBPACK_IMPORTED_MODULE_2_moment__(data.endTime).format('YYYY/MM/DD HH:mm');
+                    _this.event.content = data.content;
+                    _this.event.cate1 = data.cate1;
+                    _this.event.cate2 = data.cate2;
+                    _this.event.title = data.title;
+                    // this.event.saveTime = new Date().toString;
+                    _this.event.completion = data.completion;
+                    _this.event.calendarNo = data.calendarNo;
+                    _this.event.userNm = localStorage.getItem("userNm");
+                    _this.event.writerId = localStorage.getItem("userId");
+                    _this.event.allDay = data.allDay;
+                    _this.event.memo = data.memo;
+                }
+            });
+            // this.viewCtrl.dismiss(this.event);
+        }
+    };
+    CalendarViewModalPage.prototype.delete = function () {
+        var _this = this;
+        if (this.event.writerId != localStorage.getItem("userId")) {
+            var alert_3 = this.alertCtrl.create({
+                title: '작성자만 삭제할 수 있습니다.',
+                buttons: ['확인']
+            });
+            alert_3.present();
+        }
+        else if (this.currentDate > this.event.endTime) {
+            var alert_4 = this.alertCtrl.create({
+                title: '지난 일정은 삭제할 수 없습니다.',
+                buttons: ['확인']
+            });
+            alert_4.present();
+        }
+        else {
+            var alert_5 = this.alertCtrl.create({
+                title: '삭제하시겠습니까?',
+                buttons: [
+                    {
+                        text: '취소',
+                        role: 'cancel',
+                        handler: function () {
+                            console.log('Cancel clicked');
+                            return;
+                        }
+                    },
+                    {
+                        text: '삭제',
+                        handler: function () {
+                            console.log('Delete clicked');
+                            var addr = "http://localhost:8080/mobile/scheduleDelete";
+                            var headers = new __WEBPACK_IMPORTED_MODULE_3__angular_http__["b" /* Headers */]({ "Content-Type": "application/x-www-form-urlencoded" });
+                            var options = new __WEBPACK_IMPORTED_MODULE_3__angular_http__["c" /* RequestOptions */]({ headers: headers });
+                            var data = "calendarNo=" + _this.event.calendarNo;
+                            _this.http.post(addr, data, options)
+                                .subscribe(function (res) {
+                                _this.viewCtrl.dismiss(_this.event);
+                            }, function (err) {
+                                console.log(err);
+                                var alert = _this.alertCtrl.create({
+                                    title: '삭제할 수 없습니다. 관리자에게 문의하세요',
+                                    buttons: ['확인']
+                                });
+                                alert.present();
+                            });
+                        }
+                    }
+                ]
+            });
+            alert_5.present();
+        }
+    };
+    return CalendarViewModalPage;
+}());
+CalendarViewModalPage = __decorate([
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["e" /* IonicPage */])(),
+    __webpack_require__.i(__WEBPACK_IMPORTED_MODULE_0__angular_core__["_6" /* Component */])({
+        selector: 'page-calendar-view-modal',template:/*ion-inline-start:"D:\Skyware\Test\src\pages\calendar-view-modal\calendar-view-modal.html"*/'<!--\n  Generated template for the calendarViewModalPage page.\n\n  See http://ionicframework.com/docs/components/#navigation for more info on\n  Ionic pages and navigation.\n-->\n<ion-header>\n\n  <ion-navbar>\n    <ion-title>일정 상세</ion-title>\n  </ion-navbar>\n\n</ion-header>\n\n<ion-content padding>\n  <!-- <ion-refresher (ionRefresh)="doRefresh($event)">\n    <ion-refresher-content\n        pullingIcon="arrow-dropdown"\n        pullingText="Pull to refresh"\n        refreshingSpinner="circles"\n        refreshingText="Refreshing...">\n    </ion-refresher-content>\n</ion-refresher> -->\n  <ion-card>\n    <ion-card-header>\n      {{event.title}}\n    </ion-card-header>\n    <ion-card-content>\n      <table class="table">\n        <tr>\n          <td width="40%">시작</td>\n          <td>\n            <ion-input type="text" readonly [(ngModel)]="event.startTime"></ion-input>\n          </td>\n        </tr>\n        <tr>\n          <td>마감</td>\n          <td>\n            <ion-input type="text" readonly [(ngModel)]="event.endTime"></ion-input>\n          </td>\n        </tr>\n        <tr>\n          <td>카테고리</td>\n          <td>\n            <ion-input type="text" readonly [(ngModel)]="event.cate1"></ion-input>\n          </td>\n        </tr>\n        <tr>\n          <td>세부카테고리</td>\n          <td>\n            <ion-input type="text" readonly [(ngModel)]="event.cate2"></ion-input>\n          </td>\n        </tr>\n        <tr>\n          <td>내용</td>\n          <td>\n            <ion-input type="text" readonly [(ngModel)]="event.content"></ion-input>\n          </td>\n        </tr>\n        <tr>\n          <td>메모</td>\n          <td>\n            <ion-input type="text" readonly [(ngModel)]="event.memo"></ion-input>\n          </td>\n        </tr>\n        <tr>\n          <td>진행률(%)</td>\n          <td>\n            <ion-input type="text" readonly [(ngModel)]="event.completion"></ion-input>\n          </td>\n        </tr>\n        <tr>\n          <td>작성자</td>\n          <td>\n            <ion-input type="text" readonly [(ngModel)]="event.userNm"></ion-input>\n          </td>\n        </tr>\n        <tr>\n          <td>하루종일</td>\n          <td>\n            <ion-item>\n              <ion-checkbox [(ngModel)]="event.allDay" ng-checked="event.allDay" disabled></ion-checkbox>\n            </ion-item>\n          </td>\n        </tr>\n      </table>\n    </ion-card-content>\n  </ion-card>\n  <div align="center">\n    <button ion-button outline (click)="modify(event)">\n        <ion-icon name="color-wand"></ion-icon>&nbsp;&nbsp;수정\n    </button>\n    <button ion-button outline (click)="delete()">\n        <ion-icon name="trash"></ion-icon>&nbsp;&nbsp;삭제\n    </button>\n    <button ion-button outline (click)="cancel()">\n          <ion-icon name="checkmark"></ion-icon>&nbsp;&nbsp;확인\n      </button>\n  </div>\n</ion-content>'/*ion-inline-end:"D:\Skyware\Test\src\pages\calendar-view-modal\calendar-view-modal.html"*/,
+    }),
+    __metadata("design:paramtypes", [__WEBPACK_IMPORTED_MODULE_1_ionic_angular__["f" /* NavController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["g" /* NavParams */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["h" /* ViewController */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["j" /* ModalController */], __WEBPACK_IMPORTED_MODULE_3__angular_http__["d" /* Http */], __WEBPACK_IMPORTED_MODULE_1_ionic_angular__["i" /* AlertController */]])
+], CalendarViewModalPage);
+
+//# sourceMappingURL=calendar-view-modal.js.map
+
+/***/ })
+
+});
+//# sourceMappingURL=1.main.js.map

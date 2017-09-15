@@ -1,0 +1,50 @@
+import { Component } from '@angular/core';
+
+//import { AboutPage } from '../about/about';
+import { ContactPage } from '../contact/contact';
+import { HomePage } from '../home/home';
+import { CalendarPage } from '../calendar/calendar';
+import { NoticeListPage } from '../notice/noticeList';
+import { NavController, AlertController } from 'ionic-angular';
+import { Http, Headers, RequestOptions } from '@angular/http';
+
+@Component({
+  templateUrl: 'tabs.html'
+})
+export class TabsPage {
+
+  tab1Root = HomePage;
+  //tab2Root = AboutPage;
+  tab2Root = NoticeListPage;
+  tab3Root = CalendarPage;
+  tab4Root = ContactPage;
+
+
+  constructor(public navCtrl: NavController, private alertCtrl: AlertController, private http: Http) {
+    let headers = new Headers({ "Content-Type": "application/x-www-form-urlencoded" });
+    let options = new RequestOptions({ headers: headers });
+    var addr = "http://192.168.0.87:8080/mobile/getBirth";
+
+    this.http.post(addr, "", options)
+      .map(res => res.json())
+      .subscribe((res) => {
+        // console.log(res.getBirthList)
+        // this.temp = res.getBirthList;
+        // console.log(this.temp);
+        for (var index = 0; index < res.getBirthList.length; index++) {
+          let temp = res.getBirthList[index];
+          temp.birthName = res.getBirthList[index].userNm;
+          temp.birthDate = res.getBirthList[index].userBirth;
+
+        }
+
+      }, (err) => {
+        console.log(err);
+        let alert = this.alertCtrl.create({
+          title: '홈 정보를 불러오지 못했습니다. 관리자에게 문의하세요',
+          buttons: ['확인']
+        });
+        alert.present();
+      });
+  }
+}

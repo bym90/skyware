@@ -1,0 +1,95 @@
+{
+  "_args": [
+    [
+      {
+        "raw": "@ionic-native/http",
+        "scope": "@ionic-native",
+        "escapedName": "@ionic-native%2fhttp",
+        "name": "@ionic-native/http",
+        "rawSpec": "",
+        "spec": "latest",
+        "type": "tag"
+      },
+      "D:\\workspace_skyware\\Test"
+    ]
+  ],
+  "_from": "@ionic-native/http@latest",
+  "_id": "@ionic-native/http@3.13.0",
+  "_inCache": true,
+  "_location": "/@ionic-native/http",
+  "_nodeVersion": "6.11.0",
+  "_npmOperationalInternal": {
+    "host": "s3://npm-registry-packages",
+    "tmp": "tmp/http-3.13.0.tgz_1499082179912_0.976734098047018"
+  },
+  "_npmUser": {
+    "name": "ihadeed",
+    "email": "ibby@zyra.ca"
+  },
+  "_npmVersion": "3.10.10",
+  "_phantomChildren": {},
+  "_requested": {
+    "raw": "@ionic-native/http",
+    "scope": "@ionic-native",
+    "escapedName": "@ionic-native%2fhttp",
+    "name": "@ionic-native/http",
+    "rawSpec": "",
+    "spec": "latest",
+    "type": "tag"
+  },
+  "_requiredBy": [
+    "#USER",
+    "/"
+  ],
+  "_resolved": "https://registry.npmjs.org/@ionic-native/http/-/http-3.13.0.tgz",
+  "_shasum": "039eacdf351fcdbd5eebefd05ff0243f77024bf9",
+  "_shrinkwrap": null,
+  "_spec": "@ionic-native/http",
+  "_where": "D:\\workspace_skyware\\Test",
+  "author": {
+    "name": "ionic"
+  },
+  "bugs": {
+    "url": "https://github.com/ionic-team/ionic-native/issues"
+  },
+  "dependencies": {},
+  "description": "Ionic Native - Native plugins for ionic apps",
+  "devDependencies": {},
+  "directories": {},
+  "dist": {
+    "shasum": "039eacdf351fcdbd5eebefd05ff0243f77024bf9",
+    "tarball": "https://registry.npmjs.org/@ionic-native/http/-/http-3.13.0.tgz"
+  },
+  "homepage": "https://github.com/ionic-team/ionic-native#readme",
+  "license": "MIT",
+  "maintainers": [
+    {
+      "name": "ihadeed",
+      "email": "ibby@zyra.ca"
+    },
+    {
+      "name": "maxlynch",
+      "email": "max@ionic.io"
+    },
+    {
+      "name": "ionicjs",
+      "email": "hi@ionicframework.com"
+    }
+  ],
+  "module": "index.js",
+  "name": "@ionic-native/http",
+  "optionalDependencies": {},
+  "peerDependencies": {
+    "@ionic-native/core": "^3.6.0",
+    "@angular/core": "*",
+    "rxjs": "^5.0.1"
+  },
+  "readme": "ERROR: No README data found!",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/ionic-team/ionic-native.git"
+  },
+  "scripts": {},
+  "typings": "index.d.ts",
+  "version": "3.13.0"
+}

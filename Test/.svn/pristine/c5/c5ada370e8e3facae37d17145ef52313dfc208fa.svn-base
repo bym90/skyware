@@ -1,0 +1,23 @@
+<a style="float:right;font-size:12px;" href="http://github.com/ionic-team/ionic-native/edit/master/src/@ionic-native/plugins/db-meter/index.ts#L2">
+  Improve this doc
+</a>
+
+# DB Meter
+
+```
+$ ionic cordova plugin add cordova-plugin-dbmeter
+$ npm install --save @ionic-native/db-meter
+```
+
+## [Usage Documentation](https://ionicframework.com/docs/native/db-meter/)
+
+Plugin Repo: [https://github.com/akofman/cordova-plugin-dbmeter](https://github.com/akofman/cordova-plugin-dbmeter)
+
+This plugin defines a global DBMeter object, which permits to get the decibel values from the microphone.
+
+## Supported platforms
+- Android
+- iOS
+
+
+

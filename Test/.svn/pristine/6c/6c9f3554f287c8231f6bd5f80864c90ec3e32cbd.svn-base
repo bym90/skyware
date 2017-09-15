@@ -1,0 +1,112 @@
+import { Component } from '@angular/core';
+import { IonicPage, NavController, NavParams, ViewController, ModalController } from 'ionic-angular';
+import * as moment from 'moment';
+import { CalendarWriteModalPage } from '../calendar-write-modal/calendar-write-modal';
+
+/**
+ * Generated class for the CalnedarViewModalPage page.
+ *
+ * See http://ionicframework.com/docs/components/#navigation for more info
+ * on Ionic pages and navigation.
+ */
+@IonicPage()
+@Component({
+  selector: 'page-calnedar-view-modal',
+  templateUrl: 'calnedar-view-modal.html',
+})
+export class CalnedarViewModalPage {
+  eventSource=[];
+  event = {calendarNo : String(), startTime: String(), endTime: String(), cate1 : String(), cate2 : String(), title : String(), content : String(), memo : String(), completion : Number(), writerId : String(), allDay : Boolean}
+  constructor(public navCtrl: NavController, public navParams: NavParams,  private viewCtrl: ViewController, private modalCtrl: ModalController) {
+    console.log(this.navParams.get('calendarNo')+"navparamsssssssssssssss");
+    let preselectedNo = this.navParams.get('calendarNo');
+    let preselectedStartDate = moment(this.navParams.get('startTime')).format("YYYY/MM/DD HH:mm");
+    let preselectedEndDate = moment(this.navParams.get('endTime')).format("YYYY/MM/DD HH:mm");
+    let preselectedCate1 = this.navParams.get('cate1');
+    let preselectedCate2 = this.navParams.get('cate2');
+    let preselectedTitle = this.navParams.get('title');
+    let preselectedContent = this.navParams.get('content');
+    let preselectedMemo = this.navParams.get('memo');
+    let preselectedCompletion = this.navParams.get('completion');
+    let preselectedWriterId = this.navParams.get('writerId');
+    let preselectedAllDay = this.navParams.get('allDay');
+    
+    console.log(preselectedNo+"nononononononono");
+    console.log(preselectedStartDate);
+    console.log(preselectedEndDate);
+    console.log(preselectedCate1);
+    console.log(preselectedCate2);
+    console.log(preselectedTitle);
+    console.log(preselectedContent);
+    console.log(preselectedMemo);
+    console.log(preselectedCompletion);
+    console.log(preselectedWriterId);
+    console.log(preselectedAllDay);
+
+    this.event.calendarNo = preselectedNo;
+    this.event.startTime = preselectedStartDate;
+    this.event.endTime = preselectedEndDate;
+    this.event.title = preselectedTitle;
+    this.event.cate1 = preselectedCate1;
+    this.event.cate2 = preselectedCate2;
+    this.event.content = preselectedContent;
+    this.event.memo = preselectedMemo;
+    this.event.completion = preselectedCompletion;
+    this.event.writerId = preselectedWriterId;
+    this.event.allDay = preselectedAllDay;
+  }
+
+  cancel() {
+    this.viewCtrl.dismiss();
+  }
+  
+  // refreshPage(){
+  //   this.location.reload();
+  // }
+
+  modify(event){
+    console.log(event.calendarNo+"------------------------------------------------")
+    let modal = this.modalCtrl.create(
+      'CalendarModifyModalPage', {calendarNo : event.calendarNo, startTime : event.startTime , endTime : event.endTime, cate1 : event.cate1, cate2 : event.cate2, 
+        title : event.title, content : event.content, memo : event.memo, completion : event.completion, writerId : event.writerId, 
+        allDay : event.allDay, modifyFlag: true})
+    modal.present();
+
+    modal.onDidDismiss(() => this.navCtrl.push(CalnedarViewModalPage));
+    // modal.onDidDismiss(data => {
+    //   if (data) {
+    //     let eventData = data;
+        
+    //     eventData.startTime =  new Date(data.startTime);
+    //     eventData.endTime = new Date(data.endTime);
+    //     eventData.content = data.content;
+    //     eventData.cate1 = data.cate1;
+    //     eventData.cate2 = data.cate2;
+    //     eventData.saveTime = new Date();
+    //     eventData.completion = data.completion;
+    //     eventData.writerId = data.writerId;
+    //     eventData.no = data.no;
+        
+    //     console.log(eventData.startTime);
+    //     console.log(eventData.endTime);
+    //     console.log(eventData.content);
+    //     console.log(eventData.cate1);
+    //     console.log(eventData.cate2);
+    //     console.log(eventData.saveTime);
+    //     console.log(eventData.completion);
+    //     console.log(eventData.writerId);
+    //     console.log(eventData.no);
+ 
+
+    //     let events = this.eventSource;
+    //     events.push(eventData);
+        
+    //     this.eventSource = [];
+    //     setTimeout(() => {
+    //       this.eventSource = events;
+    //     });
+
+    //     }
+    // });
+  }
+}
